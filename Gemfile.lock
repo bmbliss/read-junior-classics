@@ -102,9 +102,6 @@ GEM
     irb (1.14.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jbuilder (2.12.0)
-      actionview (>= 5.0.0)
-      activesupport (>= 5.0.0)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -186,10 +183,6 @@ GEM
     rake (13.2.1)
     rdoc (6.7.0)
       psych (>= 4.0.0)
-    redis (5.3.0)
-      redis-client (>= 0.22.0)
-    redis-client (0.22.2)
-      connection_pool
     reline (0.5.10)
       io-console (~> 0.5)
     sprockets (4.2.1)
@@ -245,11 +238,9 @@ DEPENDENCIES
   bootsnap
   debug
   importmap-rails
-  jbuilder
   pg (~> 1.1)
   puma (>= 5.0)
-  rails (~> 7.1.3, >= 7.1.3.4)
-  redis (>= 4.0.1)
+  rails (~> 7.1.3)
   sprockets-rails
   stimulus-rails
   tailwindcss-rails
@@ -258,7 +249,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.3.4p94
 
 BUNDLED WITH
    2.5.10
