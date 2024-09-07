@@ -1,24 +1,15 @@
-# README
+# Read the Junior Classics
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+An app to help parents, teachers and children read the junior classics. 
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
+bundle
+rails db:create
+rails db:migrate
 
-* System dependencies
+## Uses
+- Postgresql
+- tailwind css
+- revise (auth)
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
