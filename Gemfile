@@ -63,3 +63,4 @@ group :development do
   # gem "spring"
 end
 
+gem "revise_auth"
