@@ -13,6 +13,19 @@
 
   <body class="bg-gray-50 min-h-screen">
     <div class="container mx-auto px-4 py-16">
+      <% flash.each do |type, message| %>
+        <div class="<%= flash_class(type) %> px-4 py-3 rounded-lg shadow-md mb-4 mx-auto max-w-screen-xl" role="alert">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <%= flash_icon(type) %>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium"><%= message %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <%= yield %>
     </div>
   </body>
