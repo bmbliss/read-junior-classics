@@ -53,6 +53,6 @@ class LiteraryWorksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def literary_work_params
-      params.require(:literary_work).permit(:title, :author, :work_type, :description)
+      params.require(:literary_work).permit(:title, :author, :work_type, :description, :volume, :page)
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_11_041331) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_11_060012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_11_041331) do
     t.index ["user_id"], name: "index_children_on_user_id"
   end
 
+  create_table "collections", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "collections_literary_works", id: false, force: :cascade do |t|
+    t.bigint "literary_work_id", null: false
+    t.bigint "collection_id", null: false
+  end
+
   create_table "literary_works", force: :cascade do |t|
     t.string "title"
     t.string "author"
@@ -30,6 +42,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_11_041331) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "volume"
+    t.integer "page"
   end
 
   create_table "program_items", force: :cascade do |t|
@@ -44,11 +58,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_11_041331) do
 
   create_table "programs", force: :cascade do |t|
     t.string "name"
-    t.integer "min_grade"
-    t.integer "max_grade"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recommended_grade"
   end
 
   create_table "reading_entries", force: :cascade do |t|

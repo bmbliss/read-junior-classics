@@ -64,3 +64,4 @@ group :development do
 end
 
 gem "revise_auth"
+gem "csv"
