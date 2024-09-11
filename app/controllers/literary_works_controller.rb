@@ -1,5 +1,5 @@
 class LiteraryWorksController < ApplicationController
-  before_action :set_literary_work, only: %i[ show edit update destroy ]
+  before_action :set_literary_work, only: %i[ show edit update ]
 
   # GET /literary_works
   def index
@@ -37,12 +37,6 @@ class LiteraryWorksController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
-  end
-
-  # DELETE /literary_works/1
-  def destroy
-    @literary_work.destroy!
-    redirect_to literary_works_url, notice: "Literary work was successfully destroyed.", status: :see_other
   end
 
   private

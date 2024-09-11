@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   get 'home/index'
-
+  
   resources :users do
     resources :children
   end
   
   resources :programs
+  resources :collections
   resources :literary_works
   resources :reading_entries
 

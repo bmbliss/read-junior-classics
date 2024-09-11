@@ -1,5 +1,5 @@
 class ProgramsController < ApplicationController
-  before_action :set_program, only: %i[ show edit update destroy ]
+  before_action :set_program, only: %i[ show edit update ]
 
   # GET /programs
   def index
@@ -37,12 +37,6 @@ class ProgramsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
-  end
-
-  # DELETE /programs/1
-  def destroy
-    @program.destroy!
-    redirect_to programs_url, notice: "Program was successfully destroyed.", status: :see_other
   end
 
   private
