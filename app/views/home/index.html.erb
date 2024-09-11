@@ -1,0 +1,31 @@
+<h1 class="text-4xl font-bold text-center text-primary-600 mb-8">Read the Junior Classics</h1>
+
+<p class="text-xl text-center text-gray-600 mb-12">Track your children's reading progress and explore reading programs.</p>
+
+<div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
+  <% if user_signed_in? %>
+    <%= link_to 'View My Children', user_children_path(current_user), class: 'w-full sm:w-auto bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1' %>
+    <%= link_to 'View Reading Entries', reading_entries_path, class: 'w-full sm:w-auto bg-white hover:bg-gray-100 text-primary-500 font-semibold py-3 px-6 rounded-lg border border-primary-500 transition duration-300 ease-in-out transform hover:-translate-y-1' %>
+  <% else %>
+    <%= link_to 'Sign Up', sign_up_path, class: 'w-full sm:w-auto bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1' %>
+    <%= link_to 'Log In', login_path, class: 'w-full sm:w-auto bg-white hover:bg-gray-100 text-primary-500 font-semibold py-3 px-6 rounded-lg border border-primary-500 transition duration-300 ease-in-out transform hover:-translate-y-1' %>
+  <% end %>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-8">
+  <h2 class="text-2xl font-semibold text-primary-600 mb-6">Explore</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <%= link_to programs_path, class: 'flex items-center p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition duration-300 ease-in-out' do %>
+      <span class="text-primary-600 font-semibold">Reading Programs</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    <% end %>
+    <%= link_to literary_works_path, class: 'flex items-center p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition duration-300 ease-in-out' do %>
+      <span class="text-primary-600 font-semibold">Literary Works</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    <% end %>
+  </div>
+</div>

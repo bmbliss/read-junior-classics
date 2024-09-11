@@ -1,31 +1,45 @@
-<h1><%=t ".sign_up" %></h1>
+<div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-lg">
+    <h1 class="text-center text-2xl font-bold text-primary-600 sm:text-3xl">
+      <%= t(".sign_up") %>
+    </h1>
 
-<%= form_with model: @user, url: sign_up_path do |form| %>
-  <% if form.object.errors.any? %>
-    <ul>
-      <% form.object.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+    <p class="mx-auto mt-4 max-w-md text-center text-gray-500">
+      <%= t(".sign_up_description") %>
+    </p>
+
+    <%= form_with model: @user, url: sign_up_path, class: "mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8" do |form| %>
+      <% if form.object.errors.any? %>
+        <div class="bg-red-50 text-red-500 px-4 py-2 rounded">
+          <ul class="list-disc list-inside">
+            <% form.object.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
       <% end %>
-    </ul>
-  <% end %>
-  <div>
-    <%= form.label :email %>
-    <%= form.email_field :email, required: true, autofocus: true %>
-  </div>
 
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password, required: true %>
-  </div>
+      <div>
+        <%= form.label :email, class: "sr-only" %>
+        <%= form.email_field :email, required: true, autofocus: true, class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm", placeholder: "Enter email" %>
+      </div>
 
-  <div>
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation, required: true %>
-  </div>
+      <div>
+        <%= form.label :password, class: "sr-only" %>
+        <%= form.password_field :password, required: true, class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm", placeholder: "Enter password" %>
+      </div>
 
-  <div>
-    <%= form.button t(".sign_up") %>
-  </div>
-<% end %>
+      <div>
+        <%= form.label :password_confirmation, class: "sr-only" %>
+        <%= form.password_field :password_confirmation, required: true, class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm", placeholder: "Confirm password" %>
+      </div>
 
-<%= render "revise_auth/shared/links" %>
+      <%= form.button t(".sign_up"), class: "block w-full rounded-lg bg-primary-600 px-5 py-3 text-sm font-medium text-white" %>
+
+      <p class="text-center text-sm text-gray-500">
+        <%= t(".already_have_account") %>
+        <%= link_to t(".log_in"), login_path, class: "underline" %>
+      </p>
+    <% end %>
+  </div>
+</div>

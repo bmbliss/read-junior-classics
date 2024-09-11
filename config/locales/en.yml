@@ -28,4 +28,27 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  revise_auth:
+    registrations:
+      new:
+        sign_up: "Sign up"
+        sign_up_description: "Create an account to get started."
+        already_have_account: "Already have an account?"
+        log_in: "Log in"
+    sessions:
+      new:
+        log_in: "Log in"
+        log_in_description: "Log in to your account to continue."
+        reset_password: "Reset password"
+        no_account: "Don't have an account?"
+        sign_up: "Sign up"
+    password_resets:
+      new:
+        send_password_reset_instructions: "Send password reset instructions"
+        password_reset_description: "Enter your email address to reset your password."
+        back_to_log_in: "Back to log in"
+    shared:
+      links:
+        reset_password: "Reset password"
+        log_in: "Log in"
+        sign_up: "Sign up"
