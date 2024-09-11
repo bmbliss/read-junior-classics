@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :users do
+    resources :children
+  end
+  
+  resources :programs
+  resources :literary_works
+  resources :reading_entries
+
   revise_auth
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

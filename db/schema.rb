@@ -10,9 +10,58 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_07_042922) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_11_041331) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "children", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.integer "grade_level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_children_on_user_id"
+  end
+
+  create_table "literary_works", force: :cascade do |t|
+    t.string "title"
+    t.string "author"
+    t.string "work_type"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "program_items", force: :cascade do |t|
+    t.bigint "program_id", null: false
+    t.bigint "literary_work_id", null: false
+    t.integer "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["literary_work_id"], name: "index_program_items_on_literary_work_id"
+    t.index ["program_id"], name: "index_program_items_on_program_id"
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.string "name"
+    t.integer "min_grade"
+    t.integer "max_grade"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reading_entries", force: :cascade do |t|
+    t.bigint "child_id", null: false
+    t.bigint "literary_work_id", null: false
+    t.string "status"
+    t.date "date_read"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_reading_entries_on_child_id"
+    t.index ["literary_work_id"], name: "index_reading_entries_on_literary_work_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
@@ -24,4 +73,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_07_042922) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "children", "users"
+  add_foreign_key "program_items", "literary_works"
+  add_foreign_key "program_items", "programs"
+  add_foreign_key "reading_entries", "children"
+  add_foreign_key "reading_entries", "literary_works"
 end
