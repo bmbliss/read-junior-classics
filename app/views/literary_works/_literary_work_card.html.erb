@@ -1,0 +1,19 @@
+<li class="p-4 hover:bg-gray-50">
+  <%= link_to literary_work_path(literary_work), class: "block" do %>
+    <div class="flex justify-between items-center">
+      <h3 class="font-semibold text-lg text-blue-600 hover:text-blue-800"><%= literary_work.title %></h3>
+      <span class="text-sm text-gray-500">View details →</span>
+    </div>
+    <p class="text-gray-600 mt-1">by <%= literary_work.author %></p>
+    <p class="text-gray-500 mt-1">
+      <%= literary_work.work_type.titleize %> 
+      <% if literary_work.volume.present? %>
+        | Volume: <%= literary_work.volume %>
+      <% end %>
+      <% if literary_work.page.present? %>
+        | Page: <%= literary_work.page %>
+      <% end %>
+    </p>
+    <p class="text-gray-600 mt-2"><%= truncate(literary_work.description, length: 150) %></p>
+  <% end %>
+</li>

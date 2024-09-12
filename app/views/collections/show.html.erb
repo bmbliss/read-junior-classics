@@ -1,24 +1,35 @@
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6"><%= @collection.name %></h1>
-  
-  <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+  <% content_for :title, @collection.name %>
+
+  <div class="mb-8">
+    <%= link_to "← Back to Collections", collections_path, class: "text-blue-600 hover:underline" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="flex justify-between items-start mb-4">
+      <h1 class="font-bold text-3xl"><%= @collection.name %></h1>
+    </div>
+    
     <p class="text-gray-600 mb-4"><%= @collection.description %></p>
+    <div class="text-sm text-gray-500">
+      Last updated <%= @collection.updated_at.strftime("%B %d, %Y") %>
+    </div>
   </div>
-  
-  <h2 class="text-2xl font-semibold mb-4">Literary Works</h2>
-  
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% @collection.literary_works.each do |work| %>
-      <div class="bg-white shadow-md rounded-lg p-6">
-        <h3 class="text-lg font-semibold mb-2"><%= work.title %></h3>
-        <p class="text-gray-600 mb-2">By <%= work.author %></p>
-        <p class="text-gray-500">Type: <%= work.work_type.titleize %></p>
-      </div>
-    <% end %>
+
+  <h2 class="font-bold text-2xl mb-4">
+    Literary Works in this Collection
+    <span class="text-gray-600 text-lg font-normal">(<%= @collection.literary_works.count %>)</span>
+  </h2>
+
+  <div class="bg-white rounded-lg shadow-md">
+    <ul class="divide-y divide-gray-200">
+      <% @collection.literary_works.each do |literary_work| %>
+        <%= render 'literary_works/literary_work_card', literary_work: literary_work %>
+      <% end %>
+    </ul>
   </div>
-  
-  <div class="mt-6">
-    <%= link_to "Edit", edit_collection_path(@collection), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" %>
-    <%= link_to "Back to Collections", collections_path, class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" %>
+
+  <div class="mt-8 flex space-x-4">
+    <%= link_to "Edit this collection", edit_collection_path(@collection), class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium hover:bg-blue-700 transition duration-150 ease-in-out" %>
   </div>
 </div>

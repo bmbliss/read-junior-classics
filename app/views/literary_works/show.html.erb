@@ -1,11 +1,57 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <%= render @literary_work %>
+<div class="container mx-auto px-4 py-8">
+  <% content_for :title, @literary_work.title %>
 
-    <%= link_to "Edit this literary work", edit_literary_work_path(@literary_work), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to literary works", literary_works_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this literary work", @literary_work, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+  <div class="mb-8">
+    <%= link_to "← Back to Literary Works", literary_works_path, class: "text-blue-600 hover:underline" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="flex justify-between items-start mb-4">
+      <h1 class="font-bold text-3xl"><%= @literary_work.title %></h1>
+      <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+        <%= @literary_work.work_type.titleize %>
+      </span>
     </div>
+    
+    <p class="text-gray-600 mb-4">by <%= @literary_work.author %></p>
+    
+    <% if @literary_work.volume.present? || @literary_work.page.present? %>
+      <p class="text-gray-500 mb-4">
+        <% if @literary_work.volume.present? %>
+          Volume: <%= @literary_work.volume %>
+        <% end %>
+        <% if @literary_work.page.present? %>
+          <%= " | " if @literary_work.volume.present? %>Page: <%= @literary_work.page %>
+        <% end %>
+      </p>
+    <% end %>
+    
+    <p class="text-gray-700 mb-4"><%= @literary_work.description %></p>
+    
+    <div class="text-sm text-gray-500">
+      Last updated <%= @literary_work.updated_at.strftime("%B %d, %Y") %>
+    </div>
+  </div>
+
+  <% if @literary_work.collections.any? %>
+    <h2 class="font-bold text-2xl mb-4">Collections</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <% @literary_work.collections.each do |collection| %>
+        <%= render 'collections/collection_card', collection: collection %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @literary_work.programs.any? %>
+    <h2 class="font-bold text-2xl mb-4">Programs</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <% @literary_work.programs.each do |program| %>
+        <%= render 'programs/program_card', program: program %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="flex space-x-4">
+    <%= link_to "Edit this literary work", edit_literary_work_path(@literary_work), class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium hover:bg-blue-700 transition duration-150 ease-in-out" %>
   </div>
 </div>

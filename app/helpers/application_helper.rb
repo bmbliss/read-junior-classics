@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def flash_class(type)
     case type.to_sym
     when :notice, :success

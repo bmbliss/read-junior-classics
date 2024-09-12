@@ -1,13 +1,16 @@
 class LiteraryWorksController < ApplicationController
-  before_action :set_literary_work, only: %i[ show edit update ]
+  include Pagy::Backend
+
+  before_action :set_literary_work, only: %i[ edit update ]
 
   # GET /literary_works
   def index
-    @literary_works = LiteraryWork.all
+    @pagy, @literary_works = pagy(LiteraryWork.order(:title))
   end
 
   # GET /literary_works/1
   def show
+    @literary_work = LiteraryWork.includes(:collections, :programs).find(params[:id])
   end
 
   # GET /literary_works/new

@@ -21,30 +21,15 @@
     </div>
   </div>
 
-  <h2 class="font-bold text-2xl mb-4">Literary Works in this Program</h2>
+  <h2 class="font-bold text-2xl mb-4">
+    Literary Works in this Program
+    <span class="text-gray-600 text-lg font-normal">(<%= @program_items.count %>)</span>
+  </h2>
 
   <div class="bg-white rounded-lg shadow-md">
     <ul class="divide-y divide-gray-200">
       <% @program_items.each do |item| %>
-        <li class="p-4 hover:bg-gray-50">
-          <%= link_to literary_work_path(item.literary_work), class: "block" do %>
-            <div class="flex justify-between items-center">
-              <h3 class="font-semibold text-lg text-blue-600 hover:text-blue-800"><%= item.literary_work.title %></h3>
-              <span class="text-sm text-gray-500">View details →</span>
-            </div>
-            <p class="text-gray-600 mt-1">by <%= item.literary_work.author %></p>
-            <p class="text-gray-500 mt-1">
-              <%= item.literary_work.work_type.titleize %> 
-              <% if item.literary_work.volume.present? %>
-                | Volume: <%= item.literary_work.volume %>
-              <% end %>
-              <% if item.literary_work.page.present? %>
-                | Page: <%= item.literary_work.page %>
-              <% end %>
-            </p>
-            <p class="text-gray-600 mt-2"><%= truncate(item.literary_work.description, length: 150) %></p>
-          <% end %>
-        </li>
+        <%= render 'literary_works/literary_work_card', literary_work: item.literary_work %>
       <% end %>
     </ul>
   </div>
