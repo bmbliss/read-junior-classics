@@ -1,0 +1,31 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Program Enrollment Details</h1>
+
+  <div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-2xl font-semibold mb-4"><%= @program_enrollment.child.name %>'s Enrollment</h2>
+    <p class="text-gray-600 mb-2">Program: <%= @program_enrollment.program.name %></p>
+    <p class="text-gray-600 mb-4">Progress: <%= @program_enrollment.progress_percentage %>% complete</p>
+
+    <h3 class="text-xl font-semibold mb-2">Recent Reading Entries</h3>
+    <% if @program_enrollment.reading_entries.any? %>
+      <ul class="list-disc list-inside">
+        <% @program_enrollment.reading_entries.order(date_read: :desc).limit(5).each do |entry| %>
+          <li class="mb-2">
+            <%= entry.literary_work.title %> - 
+            Read on: <%= entry.date_read.strftime("%B %d, %Y") %> - 
+            Rating: <%= entry.rating || 'Not rated' %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-600">No reading entries yet.</p>
+    <% end %>
+
+    <%= link_to 'Add Reading Entry', new_reading_entry_path(program_enrollment_id: @program_enrollment.id), class: 'mt-4 inline-block bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded' %>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to 'Back to Enrollments', program_enrollments_path, class: 'text-primary-500 hover:text-primary-600' %>
+    <%= button_to 'Unenroll', program_enrollment_path(@program_enrollment), method: :delete, data: { confirm: 'Are you sure you want to unenroll from this program?' }, class: 'ml-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
+  </div>
+</div>

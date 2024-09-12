@@ -1,8 +1,12 @@
 class ProgramEnrollmentsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_program_enrollment, only: [:show, :destroy]
 
   def index
     @program_enrollments = current_user.program_enrollments
+  end
+
+  def show
   end
 
   def new
@@ -36,7 +40,11 @@ class ProgramEnrollmentsController < ApplicationController
 
   private
 
+  def set_program_enrollment
+    @program_enrollment = current_user.program_enrollments.find(params[:id])
+  end
+
   def program_enrollment_params
-    params.require(:program_enrollment).permit(:program_id)
+    params.require(:program_enrollment).permit(:program_id, :child_id)
   end
 end

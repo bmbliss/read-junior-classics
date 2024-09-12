@@ -5,8 +5,11 @@ Rails.application.routes.draw do
     resources :children
   end
   
+  resources :program_enrollments do
+    resources :reading_entries, only: [:create, :update]
+  end
+  
   resources :programs
-  resources :program_enrollments
   resources :collections
   resources :literary_works
   resources :reading_entries
