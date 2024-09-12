@@ -1,11 +1,51 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <%= render @program %>
+<div class="container mx-auto px-4 py-8">
+  <% content_for :title, @program.name %>
 
-    <%= link_to "Edit this program", edit_program_path(@program), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to programs", programs_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this program", @program, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+  <div class="mb-8">
+    <%= link_to "← Back to Programs", programs_path, class: "text-blue-600 hover:underline" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="flex justify-between items-start mb-4">
+      <h1 class="font-bold text-3xl"><%= @program.name %></h1>
+      <% if @program.recommended_grade %>
+        <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+          Grade <%= @program.recommended_grade %>
+        </span>
+      <% end %>
     </div>
+    
+    <p class="text-gray-600 mb-4"><%= @program.description %></p>
+    <div class="text-sm text-gray-500">
+      Last updated <%= @program.updated_at.strftime("%B %d, %Y") %>
+    </div>
+  </div>
+
+  <h2 class="font-bold text-2xl mb-4">Literary Works in this Program</h2>
+
+  <div class="bg-white rounded-lg shadow-md">
+    <ul class="divide-y divide-gray-200">
+      <% @program_items.each do |item| %>
+        <li class="p-4 hover:bg-gray-50">
+          <%= link_to literary_work_path(item.literary_work), class: "block" do %>
+            <div class="flex justify-between items-center">
+              <h3 class="font-semibold text-lg text-blue-600 hover:text-blue-800"><%= item.literary_work.title %></h3>
+              <span class="text-sm text-gray-500">View details →</span>
+            </div>
+            <p class="text-gray-600 mt-1">by <%= item.literary_work.author %></p>
+            <p class="text-gray-500 mt-1">
+              <%= item.literary_work.work_type.titleize %> 
+              <% if item.literary_work.volume.present? %>
+                | Volume: <%= item.literary_work.volume %>
+              <% end %>
+              <% if item.literary_work.page.present? %>
+                | Page: <%= item.literary_work.page %>
+              <% end %>
+            </p>
+            <p class="text-gray-600 mt-2"><%= truncate(item.literary_work.description, length: 150) %></p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>

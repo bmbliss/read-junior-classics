@@ -8,6 +8,7 @@ class ProgramsController < ApplicationController
 
   # GET /programs/1
   def show
+    @program_items = @program.program_items.includes(:literary_work).order('literary_works.title')
   end
 
   # GET /programs/new

@@ -83,3 +83,5 @@ The project stems from a personal experience with the Junior Classics book set, 
 6. Build basic user authentication and account management.
 
 This summary encapsulates the key points of our discussion and provides a roadmap for developing the Reading Guide App.
+
+(list of books and links to copies of them)[https://onlinebooks.library.upenn.edu/webbin/metabook?id=jrclassics]

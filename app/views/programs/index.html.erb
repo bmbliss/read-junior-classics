@@ -1,17 +1,29 @@
-<div class="w-full">
+<div class="container mx-auto px-4 py-8">
   <% content_for :title, "Programs" %>
 
-  <div class="flex justify-between items-center">
+  <div class="flex justify-between items-center mb-8">
     <h1 class="font-bold text-4xl">Programs</h1>
-    <%= link_to "New program", new_program_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to "New program", new_program_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium hover:bg-blue-700 transition duration-150 ease-in-out" %>
   </div>
 
-  <div id="programs" class="min-w-full">
+  <div id="programs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @programs.each do |program| %>
-      <%= render program %>
-      <p>
-        <%= link_to "Show this program", program, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
+      <%= link_to program, class: "block" do %>
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out p-6">
+          <div class="flex justify-between items-start mb-2">
+            <h2 class="font-semibold text-xl"><%= program.name %></h2>
+            <% if program.recommended_grade %>
+              <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                Grade <%= program.recommended_grade %>
+              </span>
+            <% end %>
+          </div>
+          <p class="text-gray-600 mb-4">
+            <%= truncate(program.description, length: 200, separator: ' ', omission: '...') %>
+          </p>
+          <div class="text-blue-600 font-medium">View details →</div>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>
