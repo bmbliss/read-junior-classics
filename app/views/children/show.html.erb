@@ -3,10 +3,45 @@
 
   <h1 class="text-3xl font-bold my-6"><%= @child.name %></h1>
   
-  <div class="bg-white shadow rounded-lg p-6">
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
     <p class="text-gray-600 mb-4">Grade: <%= @child.grade_level %></p>
     
     <%= link_to 'Edit', edit_user_child_path(@user, @child), class: 'text-primary-500 hover:text-primary-600 mr-2' %>
     <%= button_to 'Delete', user_child_path(@user, @child), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: 'text-red-500 hover:text-red-600' %>
   </div>
+
+  <h2 class="text-2xl font-bold mb-4"><%= @child.name %>'s Reading Progress</h2>
+  <div class="bg-white shadow rounded-lg p-6">
+    <% if @child.program_enrollments.any? %>
+      <ul class="divide-y divide-gray-200">
+        <% @child.program_enrollments.each do |enrollment| %>
+          <li class="py-4">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-lg font-semibold"><%= enrollment.program.name %></h3>
+              <%= button_to "Unenroll", program_enrollment_path(enrollment), method: :delete, class: "bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded text-sm", form: { data: { turbo_confirm: 'Are you sure you want to unenroll from this program?' } } %>
+            </div>
+            <p class="text-gray-600 mb-2">Grade <%= enrollment.program.recommended_grade %></p>
+            <p class="text-gray-600 mb-2">Progress: <%= enrollment.progress_percentage %>% complete</p>
+            
+            <h4 class="font-semibold mt-2 mb-1">Recent Readings:</h4>
+            <ul class="list-disc list-inside">
+              <% enrollment.reading_entries.order(date_read: :desc).limit(5).each do |entry| %>
+                <li class="text-sm text-gray-600">
+                  <%= entry.literary_work.title %> - 
+                  Read on: <%= entry.date_read.strftime("%B %d, %Y") %> - 
+                  Rating: <%= entry.rating || 'Not rated' %>
+                </li>
+              <% end %>
+            </ul>
+            
+            <%= link_to "Mark a book as read", new_reading_entry_path(program_enrollment_id: enrollment.id), class: "mt-2 inline-block text-blue-600 hover:text-blue-800" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-gray-600">Not enrolled in any programs yet.</p>
+    <% end %>
+  </div>
+
+  <%= link_to "Enroll in a new program", new_program_enrollment_path(child_id: @child.id), class: "mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
 </div>

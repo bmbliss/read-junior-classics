@@ -1,9 +1,10 @@
 class ReadingEntriesController < ApplicationController
-  before_action :set_reading_entry, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :set_reading_entry, only: [:show, :edit, :update, :destroy]
 
   # GET /reading_entries
   def index
-    @reading_entries = ReadingEntry.all
+    @reading_entries = current_user.reading_entries
   end
 
   # GET /reading_entries/1
@@ -12,7 +13,8 @@ class ReadingEntriesController < ApplicationController
 
   # GET /reading_entries/new
   def new
-    @reading_entry = ReadingEntry.new
+    @program_enrollment = current_user.program_enrollments.find(params[:program_enrollment_id])
+    @reading_entry = @program_enrollment.reading_entries.new
   end
 
   # GET /reading_entries/1/edit
@@ -21,12 +23,13 @@ class ReadingEntriesController < ApplicationController
 
   # POST /reading_entries
   def create
-    @reading_entry = ReadingEntry.new(reading_entry_params)
+    @program_enrollment = current_user.program_enrollments.find(params[:reading_entry][:program_enrollment_id])
+    @reading_entry = @program_enrollment.reading_entries.new(reading_entry_params)
 
     if @reading_entry.save
-      redirect_to @reading_entry, notice: "Reading entry was successfully created."
+      redirect_to @program_enrollment.child, notice: 'Reading entry was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
@@ -48,11 +51,11 @@ class ReadingEntriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_reading_entry
-      @reading_entry = ReadingEntry.find(params[:id])
+      @reading_entry = current_user.reading_entries.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def reading_entry_params
-      params.require(:reading_entry).permit(:child_id, :literary_work_id, :status, :date_read, :notes)
+      params.require(:reading_entry).permit(:literary_work_id, :status, :date_read, :rating, :notes)
     end
 end

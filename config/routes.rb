@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
   
   resources :programs
+  resources :program_enrollments
   resources :collections
   resources :literary_works
   resources :reading_entries
