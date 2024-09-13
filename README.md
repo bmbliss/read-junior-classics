@@ -85,3 +85,10 @@ The project stems from a personal experience with the Junior Classics book set, 
 This summary encapsulates the key points of our discussion and provides a roadmap for developing the Reading Guide App.
 
 (list of books and links to copies of them)[https://onlinebooks.library.upenn.edu/webbin/metabook?id=jrclassics]
+
+## My TODO
+- aggregate a rating average
+- ability to rate a whole program and aggregate that average
+- on the literary work show page, display the rating average and a few recent ratings and number of ratings? show if you read it already and any of your notes
+- would it make sense to have comments for things? that could get out of hand...?
+- improve the navigation, it is very clunky. link things together in a more cohesive way
