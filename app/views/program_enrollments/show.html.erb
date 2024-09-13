@@ -1,7 +1,7 @@
 <div class="container mx-auto px-4 py-8" data-controller="tabs">
   <h1 class="text-3xl font-bold mb-6">Program Enrollment: <%= @program_enrollment.program.name %></h1>
   <h2 class="text-2xl font-semibold mb-4"><%= @program_enrollment.child.name %>'s Progress</h2>
-  <p class="text-gray-600 mb-4">Progress: <%= @program_enrollment.progress_percentage %>% complete</p>
+  <p class="text-gray-600 mb-4">Progress: <span id="program-progress-percentage"><%= @program_enrollment.progress_percentage %></span>% complete</p>
 
   <div class="mb-6">
     <div class="border-b border-gray-200">

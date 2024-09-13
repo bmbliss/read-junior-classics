@@ -23,6 +23,7 @@ class ReadingEntriesController < ApplicationController
 
   # POST /reading_entries
   def create
+    # really this is a create or update!!
     @program_enrollment = current_user.program_enrollments.find(params[:program_enrollment_id])
     @reading_entry = @program_enrollment.reading_entries.find_or_initialize_by(literary_work_id: reading_entry_params[:literary_work_id])
     @reading_entry.date_read = Date.today # TODO - should we change this to a date time??
