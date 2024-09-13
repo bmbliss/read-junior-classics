@@ -92,3 +92,5 @@ This summary encapsulates the key points of our discussion and provides a roadma
 - on the literary work show page, display the rating average and a few recent ratings and number of ratings? show if you read it already and any of your notes
 - would it make sense to have comments for things? that could get out of hand...?
 - improve the navigation, it is very clunky. link things together in a more cohesive way
+- link to the literary works
+- for public domain stuff, maybe provide the text? that could be a cool feature.
