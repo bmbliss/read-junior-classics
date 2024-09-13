@@ -1,7 +1,11 @@
-<div class="bg-white shadow rounded-lg p-4 mb-4">
+<div class="bg-white shadow rounded-lg p-4 mb-4" data-controller="reading-entry" data-reading-entry-completed-value="<%= completed %>" data-reading-entry-url-value="<%= program_enrollment_reading_entries_path(program_enrollment) %>" data-reading-entry-literary-work-id-value="<%= program_item.literary_work.id %>">
   <div class="flex items-center justify-between">
     <div class="flex items-center">
-      <input type="checkbox" class="form-checkbox h-5 w-5 text-primary-600" <%= 'checked' if completed %>>
+      <input type="checkbox" 
+             class="form-checkbox h-5 w-5 text-primary-600" 
+             <%= 'checked' if completed %>
+             data-action="change->reading-entry#toggleStatus"
+             data-reading-entry-target="checkbox">
       <span class="ml-2 text-lg font-medium"><%= program_item.literary_work.title %></span>
     </div>
     <div class="flex items-center">
