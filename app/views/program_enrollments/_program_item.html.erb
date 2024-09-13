@@ -1,16 +1,30 @@
 <div class="bg-white shadow rounded-lg p-4 mb-4" data-controller="reading-entry" data-reading-entry-completed-value="<%= completed %>" data-reading-entry-url-value="<%= program_enrollment_reading_entries_path(program_enrollment) %>" data-reading-entry-literary-work-id-value="<%= program_item.literary_work.id %>">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center">
+  <div class="flex items-start justify-between">
+    <div class="flex items-start">
       <input type="checkbox" 
-             class="form-checkbox h-5 w-5 text-primary-600" 
+             class="form-checkbox h-5 w-5 text-primary-600 mt-1" 
              <%= 'checked' if completed %>
              data-action="change->reading-entry#toggleStatus"
              data-reading-entry-target="checkbox">
-      <span class="ml-2 text-lg font-medium"><%= program_item.literary_work.title %></span>
+      <div class="ml-3">
+        <h4 class="text-lg font-medium"><%= program_item.literary_work.title %></h4>
+        <p class="text-sm text-gray-600">
+          by <%= program_item.literary_work.author %>
+        </p>
+        <p class="text-sm text-gray-600">
+          <%= program_item.literary_work.work_type.titleize %> 
+          <% if program_item.literary_work.volume.present? %>
+            | Volume: <%= program_item.literary_work.volume %>
+          <% end %>
+          <% if program_item.literary_work.page.present? %>
+            | Page: <%= program_item.literary_work.page %>
+          <% end %>
+        </p>
+      </div>
     </div>
     <div class="flex items-center">
-      <label class="mr-2">Rating:</label>
-      <select class="form-select">
+      <label class="mr-2 text-sm">Rating:</label>
+      <select class="form-select text-sm">
         <option value="">Not rated</option>
         <% (1..10).each do |i| %>
           <option value="<%= i %>"><%= i %></option>

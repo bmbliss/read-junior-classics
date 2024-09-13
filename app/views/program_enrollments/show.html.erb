@@ -1,7 +1,17 @@
 <div class="container mx-auto px-4 py-8" data-controller="tabs">
-  <h1 class="text-3xl font-bold mb-6">Program Enrollment: <%= @program_enrollment.program.name %></h1>
-  <h2 class="text-2xl font-semibold mb-4"><%= @program_enrollment.child.name %>'s Progress</h2>
-  <p class="text-gray-600 mb-4">Progress: <span id="program-progress-percentage"><%= @program_enrollment.progress_percentage %></span>% complete</p>
+  <%= link_to '← Back to Enrollments', program_enrollments_path, class: 'text-primary-500 hover:text-primary-600 mb-4 inline-block' %>
+
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-3xl font-bold mb-2"><%= @program_enrollment.program.name %></h1>
+        <h2 class="text-xl font-semibold text-gray-600 mb-4"><%= @program_enrollment.child.name %>'s Progress</h2>
+        <p class="text-gray-600 mb-2">Total Literary Works: <%= @program_enrollment.program.program_items.count %></p>
+        <p class="text-gray-600 mb-4"><span id="program-progress-percentage"><%= @program_enrollment.progress_percentage %></span>% complete</p>
+      </div>
+      <%= button_to 'Unenroll', program_enrollment_path(@program_enrollment), method: :delete, data: { turbo_confirm: 'Are you sure you want to unenroll from this program?' }, class: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
+    </div>
+  </div>
 
   <div class="mb-6">
     <div class="border-b border-gray-200">
@@ -17,7 +27,7 @@
   </div>
 
   <div data-tabs-target="panel" data-tab="incomplete">
-    <h3 class="text-xl font-semibold mb-2">Incomplete Items</h3>
+    <h3 class="text-xl font-semibold mb-4">Incomplete Items</h3>
     <% @program_enrollment.program.program_items.each do |program_item| %>
       <% unless @program_enrollment.reading_entries.completed.exists?(literary_work: program_item.literary_work) %>
         <%= render 'program_item', program_item: program_item, program_enrollment: @program_enrollment, completed: false %>
@@ -26,16 +36,11 @@
   </div>
 
   <div data-tabs-target="panel" data-tab="complete" class="hidden">
-    <h3 class="text-xl font-semibold mb-2">Completed Items</h3>
+    <h3 class="text-xl font-semibold mb-4">Completed Items</h3>
     <% @program_enrollment.program.program_items.each do |program_item| %>
       <% if @program_enrollment.reading_entries.completed.exists?(literary_work: program_item.literary_work) %>
         <%= render 'program_item', program_item: program_item, program_enrollment: @program_enrollment, completed: true %>
       <% end %>
     <% end %>
-  </div>
-
-  <div class="mt-6">
-    <%= link_to 'Back to Enrollments', program_enrollments_path, class: 'text-primary-500 hover:text-primary-600' %>
-    <%= button_to 'Unenroll', program_enrollment_path(@program_enrollment), method: :delete, data: { turbo_confirm: 'Are you sure you want to unenroll from this program?' }, class: 'ml-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
   </div>
 </div>
