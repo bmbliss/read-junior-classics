@@ -23,13 +23,12 @@ class ReadingEntriesController < ApplicationController
 
   # POST /reading_entries
   def create
-    # really this is a create or update!!
     @program_enrollment = current_user.program_enrollments.find(params[:program_enrollment_id])
     @reading_entry = @program_enrollment.reading_entries.find_or_initialize_by(literary_work_id: reading_entry_params[:literary_work_id])
-    @reading_entry.date_read = Date.today # TODO - should we change this to a date time??
-
+    @reading_entry.date_read = Date.today if @reading_entry.new_record?
+    
     if @reading_entry.update(reading_entry_params)
-      render json: { status: @reading_entry.status, progress_percentage: @program_enrollment.progress_percentage }
+      render json: { status: @reading_entry.status, rating: @reading_entry.rating, progress_percentage: @program_enrollment.progress_percentage }
     else
       render json: { errors: @reading_entry.errors.full_messages }, status: :unprocessable_entity
     end
@@ -58,6 +57,6 @@ class ReadingEntriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def reading_entry_params
-      params.require(:reading_entry).permit(:literary_work_id, :status)
+      params.require(:reading_entry).permit(:literary_work_id, :status, :rating)
     end
 end

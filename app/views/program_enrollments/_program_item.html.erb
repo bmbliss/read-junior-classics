@@ -24,10 +24,12 @@
     </div>
     <div class="flex items-center">
       <label class="mr-2 text-sm">Rating:</label>
-      <select class="form-select text-sm">
+      <select class="form-select text-sm" data-action="change->reading-entry#updateRating" data-reading-entry-target="rating">
         <option value="">Not rated</option>
         <% (1..10).each do |i| %>
-          <option value="<%= i %>"><%= i %></option>
+          <option value="<%= i %>" <%= 'selected' if @program_enrollment.reading_entries.find_by(literary_work: program_item.literary_work)&.rating == i %>>
+            <%= i %>
+          </option>
         <% end %>
       </select>
     </div>

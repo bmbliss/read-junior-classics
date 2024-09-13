@@ -9,6 +9,11 @@ export default class extends Controller {
     this.updateReadingEntry({ status: status, literary_work_id: this.literaryWorkIdValue })
   }
 
+  updateRating(event) {
+    const rating = event.target.value;
+    this.updateReadingEntry({ rating: rating, literary_work_id: this.literaryWorkIdValue });
+  }
+
   async updateReadingEntry(data) {
     const response = await fetch(this.urlValue, {
       method: "POST",
@@ -21,12 +26,19 @@ export default class extends Controller {
 
     if (response.ok) {
       const result = await response.json()
-      this.completedValue = result.status === "completed"
-      this.element.dataset.readingEntryCompletedValue = this.completedValue
+      if (data.status) {
+        this.completedValue = result.status === "completed"
+        this.element.dataset.readingEntryCompletedValue = this.completedValue
+      }
       this.updateProgressPercentage(result.progress_percentage)
     } else {
       console.error("Failed to update reading entry")
-      this.checkboxTarget.checked = !this.checkboxTarget.checked
+      if (data.status) {
+        this.checkboxTarget.checked = !this.checkboxTarget.checked
+      }
+      if (data.rating) {
+        this.ratingTarget.value = this.ratingTarget.dataset.previousValue || ""
+      }
       this.showFlashNotice("Failed to update reading entry", "error")
     }
   }
