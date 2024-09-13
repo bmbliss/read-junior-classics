@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_12_044330) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_13_043132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,13 +75,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_12_044330) do
 
   create_table "reading_entries", force: :cascade do |t|
     t.bigint "literary_work_id", null: false
-    t.string "status"
     t.date "date_read"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "program_enrollment_id", null: false
     t.integer "rating"
+    t.integer "status", default: 0
     t.index ["literary_work_id"], name: "index_reading_entries_on_literary_work_id"
     t.index ["program_enrollment_id"], name: "index_reading_entries_on_program_enrollment_id"
   end

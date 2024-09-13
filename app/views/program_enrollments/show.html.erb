@@ -1,31 +1,68 @@
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6">Program Enrollment Details</h1>
+  <h1 class="text-3xl font-bold mb-6">Program Enrollment: <%= @program_enrollment.program.name %></h1>
+  <h2 class="text-2xl font-semibold mb-4"><%= @program_enrollment.child.name %>'s Progress</h2>
+  <p class="text-gray-600 mb-4">Progress: <%= @program_enrollment.progress_percentage %>% complete</p>
 
-  <div class="bg-white shadow rounded-lg p-6">
-    <h2 class="text-2xl font-semibold mb-4"><%= @program_enrollment.child.name %>'s Enrollment</h2>
-    <p class="text-gray-600 mb-2">Program: <%= @program_enrollment.program.name %></p>
-    <p class="text-gray-600 mb-4">Progress: <%= @program_enrollment.progress_percentage %>% complete</p>
+  <div class="mb-6">
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex" aria-label="Tabs">
+        <button id="incomplete-tab" class="border-primary-500 text-primary-600 whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm">
+          Incomplete
+        </button>
+        <button id="complete-tab" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-4 border-b-2 font-medium text-sm">
+          Complete
+        </button>
+      </nav>
+    </div>
+  </div>
 
-    <h3 class="text-xl font-semibold mb-2">Recent Reading Entries</h3>
-    <% if @program_enrollment.reading_entries.any? %>
-      <ul class="list-disc list-inside">
-        <% @program_enrollment.reading_entries.order(date_read: :desc).limit(5).each do |entry| %>
-          <li class="mb-2">
-            <%= entry.literary_work.title %> - 
-            Read on: <%= entry.date_read.strftime("%B %d, %Y") %> - 
-            Rating: <%= entry.rating || 'Not rated' %>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-gray-600">No reading entries yet.</p>
+  <div id="incomplete-items">
+    <h3 class="text-xl font-semibold mb-2">Incomplete Items</h3>
+    <% @program_enrollment.program.program_items.each do |program_item| %>
+      <% unless @program_enrollment.reading_entries.completed.exists?(literary_work: program_item.literary_work) %>
+        <%= render 'program_item', program_item: program_item, program_enrollment: @program_enrollment, completed: false %>
+      <% end %>
     <% end %>
+  </div>
 
-    <%= link_to 'Add Reading Entry', new_reading_entry_path(program_enrollment_id: @program_enrollment.id), class: 'mt-4 inline-block bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded' %>
+  <div id="complete-items" class="hidden">
+    <h3 class="text-xl font-semibold mb-2">Completed Items</h3>
+    <% @program_enrollment.program.program_items.each do |program_item| %>
+      <% if @program_enrollment.reading_entries.completed.exists?(literary_work: program_item.literary_work) %>
+        <%= render 'program_item', program_item: program_item, program_enrollment: @program_enrollment, completed: true %>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="mt-6">
     <%= link_to 'Back to Enrollments', program_enrollments_path, class: 'text-primary-500 hover:text-primary-600' %>
-    <%= button_to 'Unenroll', program_enrollment_path(@program_enrollment), method: :delete, data: { confirm: 'Are you sure you want to unenroll from this program?' }, class: 'ml-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
+    <%= button_to 'Unenroll', program_enrollment_path(@program_enrollment), method: :delete, data: { turbo_confirm: 'Are you sure you want to unenroll from this program?' }, class: 'ml-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const incompleteTab = document.getElementById('incomplete-tab');
+    const completeTab = document.getElementById('complete-tab');
+    const incompleteItems = document.getElementById('incomplete-items');
+    const completeItems = document.getElementById('complete-items');
+
+    incompleteTab.addEventListener('click', function() {
+      incompleteItems.classList.remove('hidden');
+      completeItems.classList.add('hidden');
+      incompleteTab.classList.add('border-primary-500', 'text-primary-600');
+      incompleteTab.classList.remove('border-transparent', 'text-gray-500');
+      completeTab.classList.remove('border-primary-500', 'text-primary-600');
+      completeTab.classList.add('border-transparent', 'text-gray-500');
+    });
+
+    completeTab.addEventListener('click', function() {
+      completeItems.classList.remove('hidden');
+      incompleteItems.classList.add('hidden');
+      completeTab.classList.add('border-primary-500', 'text-primary-600');
+      completeTab.classList.remove('border-transparent', 'text-gray-500');
+      incompleteTab.classList.remove('border-primary-500', 'text-primary-600');
+      incompleteTab.classList.add('border-transparent', 'text-gray-500');
+    });
+  });
+</script>

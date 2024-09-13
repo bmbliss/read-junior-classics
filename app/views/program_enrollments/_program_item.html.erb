@@ -1,0 +1,22 @@
+<div class="bg-white shadow rounded-lg p-4 mb-4">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <input type="checkbox" class="form-checkbox h-5 w-5 text-primary-600" <%= 'checked' if completed %>>
+      <span class="ml-2 text-lg font-medium"><%= program_item.literary_work.title %></span>
+    </div>
+    <div class="flex items-center">
+      <label class="mr-2">Rating:</label>
+      <select class="form-select">
+        <option value="">Not rated</option>
+        <% (1..10).each do |i| %>
+          <option value="<%= i %>"><%= i %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  <div class="mt-2">
+    <button class="text-sm text-primary-500 hover:text-primary-600">
+      Add Notes
+    </button>
+  </div>
+</div>
