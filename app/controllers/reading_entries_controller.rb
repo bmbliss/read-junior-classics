@@ -28,7 +28,7 @@ class ReadingEntriesController < ApplicationController
     @reading_entry.date_read = Date.today if @reading_entry.new_record?
     
     if @reading_entry.update(reading_entry_params)
-      render json: { status: @reading_entry.status, rating: @reading_entry.rating, progress_percentage: @program_enrollment.progress_percentage }
+      render json: { status: @reading_entry.status, rating: @reading_entry.rating, notes: @reading_entry.notes, progress_percentage: @program_enrollment.progress_percentage }
     else
       render json: { errors: @reading_entry.errors.full_messages }, status: :unprocessable_entity
     end
@@ -57,6 +57,6 @@ class ReadingEntriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def reading_entry_params
-      params.require(:reading_entry).permit(:literary_work_id, :status, :rating)
+      params.require(:reading_entry).permit(:literary_work_id, :status, :rating, :notes)
     end
 end
