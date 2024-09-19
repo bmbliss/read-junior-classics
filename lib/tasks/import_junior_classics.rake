@@ -1,4 +1,5 @@
 require 'csv'
+require 'fileutils'
 
 VOLUME_TITLES = {
   1 => "Fairy and Wonder Tales",
@@ -61,6 +62,27 @@ def determine_work_type(volume)
   end
 end
 
+def find_matching_story_file(title, author)
+  stories_dir = Rails.root.join('stories')
+  normalized_title = normalize_string(title)
+  normalized_author = normalize_string(author)
+
+  Dir.glob(File.join(stories_dir, '*.txt')).find do |file|
+    filename = File.basename(file, '.txt')
+    file_title, file_author = filename.split('by')
+    
+    normalized_file_title = normalize_string(file_title)
+    normalized_file_author = normalize_string(file_author)
+
+    normalized_file_title.include?(normalized_title) && 
+      normalized_file_author.include?(normalized_author)
+  end
+end
+
+def normalize_string(str)
+  str.downcase.gsub(/[^a-z]/, '')
+end
+
 namespace :import do
   desc 'Import Junior Classics data from CSV'
   task junior_classics: :environment do
@@ -70,13 +92,19 @@ namespace :import do
     
     CSV.foreach(csv_file, headers: true) do |row|
       volume = roman_to_integer(row['volume'].strip)
+      title = row['title'].strip
+      author = (row['author'].presence || 'Unknown').strip
+
+      story_file = find_matching_story_file(title, author)
+      content = story_file ? File.read(story_file) : nil
 
       literary_work = LiteraryWork.create!(
-        title: row['title'].strip,
-        author: (row['author'].presence || 'Unknown').strip,
+        title: title,
+        author: author,
         volume: volume,
         page: row['page'].strip.to_i,
-        work_type: determine_work_type(volume)
+        work_type: determine_work_type(volume),
+        content: content
       )
       
       collection_name = "Junior Classics Volume #{volume}: #{VOLUME_TITLES[volume]}"

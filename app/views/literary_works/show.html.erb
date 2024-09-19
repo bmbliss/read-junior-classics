@@ -44,6 +44,13 @@
     </div>
   </div>
 
+  <% if @literary_work.content.present? %>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h2 class="font-bold text-2xl mb-4">Content</h2>
+      <div class="text-gray-700 whitespace-pre-wrap"><%= @literary_work.content %></div>
+    </div>
+  <% end %>
+
   <% if @literary_work.collections.any? %>
     <h2 class="font-bold text-2xl mb-4">Collections</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
