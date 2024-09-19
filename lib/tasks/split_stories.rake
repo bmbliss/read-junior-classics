@@ -5,7 +5,7 @@ task :split_stories do
   content = File.read('volume6.txt')
 
   # Split the content into stories
-  stories = content.split(/\n\n([A-Z0-9'"\-\?,. ]+)\n\nBy ([^\n]+)\n\n/)
+  stories = content.split(/\n\n(.*)\n\nBy (.*)\n\n/)
 
   # Remove the first element (text before the first story)
   stories.shift
@@ -25,8 +25,12 @@ task :split_stories do
 
     # Write the story to a file
     File.open(filename, 'w') do |file|
-      file.puts "#{title}\n\nBy #{author}\n\n#{story_text}"
+      file.puts story_text.gsub("\n\n", "<p>").gsub("\n", " ").gsub("<p>", "\n\n")
     end
+
+    # TODO 
+    # clean up all the newlines and whitespace
+    # remove the title and author from the story
 
     puts "Saved: #{filename}"
   end
