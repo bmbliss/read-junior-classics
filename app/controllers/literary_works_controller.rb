@@ -10,7 +10,9 @@ class LiteraryWorksController < ApplicationController
 
   # GET /literary_works/1
   def show
-    @literary_work = LiteraryWork.includes(:collections, :programs).find(params[:id])
+    @literary_work = LiteraryWork.includes(:collections, :programs, :reading_entries).find(params[:id])
+    @average_rating = @literary_work.average_rating
+    @total_ratings = @literary_work.total_ratings
   end
 
   # GET /literary_works/new

@@ -19,4 +19,12 @@ class LiteraryWork < ApplicationRecord
     historical_account: 8,
     other: 9
   }
+
+  def average_rating
+    reading_entries.where.not(rating: nil).average(:rating)&.round(1) || 0
+  end
+
+  def total_ratings
+    reading_entries.where.not(rating: nil).count
+  end
 end
