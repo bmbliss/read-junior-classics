@@ -20,6 +20,10 @@ class LiteraryWork < ApplicationRecord
     other: 9
   }
 
+  def self.without_collections
+    left_outer_joins(:collections).where(collections: { id: nil })
+  end
+
   def average_rating
     reading_entries.where.not(rating: nil).average(:rating)&.round(1) || 0
   end
