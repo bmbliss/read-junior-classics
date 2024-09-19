@@ -1,37 +1,52 @@
-<h1 class="text-4xl font-bold text-center text-primary-600 mb-8">Read the Junior Classics</h1>
+<% if user_signed_in? %>
+  <h1 class="text-4xl font-bold text-center text-primary-600 mb-8">Welcome to Read the Junior Classics</h1>
 
-<p class="text-xl text-center text-gray-600 mb-12">Track your children's reading progress and explore reading programs.</p>
-
-<div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
-  <% if user_signed_in? %>
-    <%= link_to 'View My Children', user_children_path(current_user), class: 'w-full sm:w-auto bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1' %>
-    <%= link_to 'View Reading Entries', reading_entries_path, class: 'w-full sm:w-auto bg-white hover:bg-gray-100 text-primary-500 font-semibold py-3 px-6 rounded-lg border border-primary-500 transition duration-300 ease-in-out transform hover:-translate-y-1' %>
+  <% if @children.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <% @children.each do |child| %>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-2xl font-semibold text-primary-600 mb-4"><%= child.name %></h2>
+          <p class="text-gray-600 mb-4">Grade: <%= child.grade_level %></p>
+          
+          <% if child.program_enrollments.any? %>
+            <h3 class="text-xl font-semibold mb-2">Enrolled Programs:</h3>
+            <ul class="space-y-2">
+              <% child.program_enrollments.each do |enrollment| %>
+                <li>
+                  <div class="flex justify-between items-center">
+                    <span class="font-medium"><%= enrollment.program.name %></span>
+                    <span class="text-sm text-gray-600">Progress: <%= enrollment.progress_percentage %>%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                    <div class="bg-primary-600 h-2.5 rounded-full" style="width: <%= enrollment.progress_percentage %>%"></div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-gray-600">Not enrolled in any programs yet.</p>
+          <% end %>
+          
+          <%= link_to "View Details", user_child_path(current_user, child), class: "mt-4 inline-block bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition duration-300" %>
+        </div>
+      <% end %>
+    </div>
   <% else %>
+    <p class="text-xl text-center text-gray-600 mb-8">You haven't added any children yet.</p>
+    <div class="flex justify-center">
+      <%= link_to "Add a Child", new_user_child_path(current_user), class: "block mx-auto w-auto text-center bg-primary-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary-600 transition duration-300 ease-in-out transform hover:-translate-y-1" %>
+    </div>
+  <% end %>
+
+  <%= render "featured" %>
+<% else %>
+  <h1 class="text-4xl font-bold text-center text-primary-600 mb-8">Read the Junior Classics</h1>
+  <p class="text-xl text-center text-gray-600 mb-12">Discover classic literature and track your children's reading progress with our curated reading programs.</p>
+
+  <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
     <%= link_to 'Sign Up', sign_up_path, class: 'w-full sm:w-auto bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1' %>
     <%= link_to 'Log In', login_path, class: 'w-full sm:w-auto bg-white hover:bg-gray-100 text-primary-500 font-semibold py-3 px-6 rounded-lg border border-primary-500 transition duration-300 ease-in-out transform hover:-translate-y-1' %>
-  <% end %>
-</div>
-
-<div class="bg-white rounded-lg shadow-md p-8">
-  <h2 class="text-2xl font-semibold text-primary-600 mb-6">Explore</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <%= link_to programs_path, class: 'flex items-center p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition duration-300 ease-in-out' do %>
-      <span class="text-primary-600 font-semibold">Reading Programs</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-      </svg>
-    <% end %>
-    <%= link_to literary_works_path, class: 'flex items-center p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition duration-300 ease-in-out' do %>
-      <span class="text-primary-600 font-semibold">Literary Works</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-      </svg>
-    <% end %>
-    <%= link_to collections_path, class: 'flex items-center p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition duration-300 ease-in-out' do %>
-      <span class="text-primary-600 font-semibold">Collections</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-      </svg>
-    <% end %>
   </div>
-</div>
+
+  <%= render "featured" %>
+<% end %>

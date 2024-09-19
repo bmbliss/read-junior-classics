@@ -1,0 +1,41 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-12">
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-primary-600 mb-4">Featured Programs</h2>
+    <ul class="space-y-2">
+      <% @featured_programs.each do |program| %>
+        <li><%= link_to program.name, program_path(program), class: "text-primary-500 hover:underline" %></li>
+      <% end %>
+    </ul>
+    <%= link_to "View All Programs", programs_path, class: "mt-4 inline-block text-primary-600 hover:underline" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-primary-600 mb-4">Recent Literary Works</h2>
+    <ul class="space-y-2">
+      <% @recent_literary_works.each do |work| %>
+        <li><%= link_to work.title, literary_work_path(work), class: "text-primary-500 hover:underline" %></li>
+      <% end %>
+    </ul>
+    <%= link_to "View All Literary Works", literary_works_path, class: "mt-4 inline-block text-primary-600 hover:underline" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-semibold text-primary-600 mb-4">Featured Collections</h2>
+    <ul class="space-y-2">
+      <% @collections.each do |collection| %>
+        <li><%= link_to collection.name, collection_path(collection), class: "text-primary-500 hover:underline" %></li>
+      <% end %>
+    </ul>
+    <%= link_to "View All Collections", collections_path, class: "mt-4 inline-block text-primary-600 hover:underline" %>
+  </div>
+</div>
+
+<div class="bg-gray-100 rounded-lg p-8">
+  <h2 class="text-2xl font-semibold text-primary-600 mb-4">Why Read the Junior Classics?</h2>
+  <ul class="list-disc list-inside space-y-2 text-gray-700">
+    <li>Curated reading programs for different age groups</li>
+    <li>Track your children's reading progress</li>
+    <li>Discover classic literature suitable for young readers</li>
+    <li>Encourage a lifelong love for reading</li>
+  </ul>
+</div>
