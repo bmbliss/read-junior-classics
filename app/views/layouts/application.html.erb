@@ -1,32 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full">
   <head>
-    <title>ReadJuniorClassics</title>
+    <title><%= content_for?(:title) ? yield(:title) + " | " : "" %>Read Junior Classics</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-50 min-h-screen">
-    <div class="container mx-auto px-4 py-16">
-      <% flash.each do |type, message| %>
-        <div class="<%= flash_class(type) %> px-4 py-3 rounded-lg shadow-md mb-4 mx-auto max-w-screen-xl" role="alert">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <%= flash_icon(type) %>
-            </div>
-            <div class="ml-3">
-              <p class="text-sm font-medium"><%= message %></p>
-            </div>
-          </div>
-        </div>
-      <% end %>
+  <body class="flex flex-col min-h-screen bg-gray-50">
+    <%= render 'shared/header' %>
 
-      <%= yield %>
-    </div>
+    <main class="flex-grow">
+      <div class="container mx-auto px-4 py-8">
+        <%= render 'shared/flash_messages' %>
+        <%= yield %>
+      </div>
+    </main>
+
+    <%= render 'shared/footer' %>
   </body>
 </html>
