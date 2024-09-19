@@ -1,10 +1,6 @@
 <div class="container mx-auto px-4 py-8">
   <% content_for :title, @literary_work.title %>
 
-  <div class="mb-8">
-    <%= link_to "← Back to Literary Works", literary_works_path, class: "text-blue-600 hover:underline" %>
-  </div>
-
   <div class="bg-white rounded-lg shadow-md p-6 mb-8">
     <div class="flex justify-between items-start mb-4">
       <h1 class="font-bold text-3xl"><%= @literary_work.title %></h1>

@@ -2,10 +2,14 @@ class CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :update]
 
   def index
+    add_breadcrumb "Collections", collections_path
     @collections = Collection.all
   end
 
   def show
+    @collection = Collection.find(params[:id])
+    add_breadcrumb "Collections", collections_path
+    add_breadcrumb @collection.name
   end
 
   def new

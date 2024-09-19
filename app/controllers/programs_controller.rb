@@ -3,11 +3,15 @@ class ProgramsController < ApplicationController
 
   # GET /programs
   def index
+    add_breadcrumb "Programs", programs_path
     @programs = Program.all
   end
 
   # GET /programs/1
   def show
+    @program = Program.find(params[:id])
+    add_breadcrumb "Programs", programs_path
+    add_breadcrumb @program.name
     @program_items = @program.program_items.includes(:literary_work).order('literary_works.title')
   end
 

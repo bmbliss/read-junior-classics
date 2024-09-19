@@ -5,12 +5,15 @@ class LiteraryWorksController < ApplicationController
 
   # GET /literary_works
   def index
+    add_breadcrumb "Literary Works", literary_works_path
     @pagy, @literary_works = pagy(LiteraryWork.order(:title))
   end
 
   # GET /literary_works/1
   def show
     @literary_work = LiteraryWork.includes(:collections, :programs, :reading_entries).find(params[:id])
+    add_breadcrumb "Literary Works", literary_works_path
+    add_breadcrumb @literary_work.title
     @average_rating = @literary_work.average_rating
     @total_ratings = @literary_work.total_ratings
   end

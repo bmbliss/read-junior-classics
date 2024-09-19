@@ -5,10 +5,14 @@ class ChildrenController < ApplicationController
   before_action :require_current_user, only: [:show, :edit, :update, :destroy]
 
   def index
+    add_breadcrumb "My Children", user_children_path(current_user)
     @children = @user.children
   end
 
   def show
+    @child = Child.find(params[:id])
+    add_breadcrumb "My Children", user_children_path(current_user)
+    add_breadcrumb @child.name
   end
 
   def new
