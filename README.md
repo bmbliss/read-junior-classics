@@ -29,7 +29,7 @@ The project stems from a personal experience with the Junior Classics book set, 
 
 ### Technology Stack
 - Backend: Ruby on Rails
-- Database: PostgreSQL (implied by the use of Rails)
+- Database: PostgreSQL 
 
 ### Core Entities
 
@@ -94,3 +94,5 @@ This summary encapsulates the key points of our discussion and provides a roadma
 - improve the navigation, it is very clunky. link things together in a more cohesive way
 - link to the literary works
 - for public domain stuff, maybe provide the text? that could be a cool feature.
+
+go through each story file and see if there is anonymous, split up those into their own files as well...
