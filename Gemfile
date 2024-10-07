@@ -66,3 +66,5 @@ end
 gem "revise_auth"
 gem "csv"
 gem 'pagy'
+
+gem "dockerfile-rails", ">= 1.6", :group => :development
