@@ -1,0 +1,38 @@
+app = "read-junior-classics"
+console_command = "/rails/bin/rails console"
+primary_region = "lax"
+
+[checks.status]
+grace_period = "5s"
+interval = "10s"
+method = "GET"
+path = "/up"
+port = 3_000
+protocol = "http"
+timeout = "2s"
+tls_skip_verify = false
+type = "http"
+
+  [checks.status.headers]
+  X-Forwarded-Proto = "https"
+
+[deploy]
+release_command = "./bin/rails db:prepare"
+
+[http_service]
+auto_start_machines = true
+auto_stop_machines = true
+force_https = true
+internal_port = 3_000
+min_machines_running = 0
+processes = [ "app" ]
+
+[[statics]]
+guest_path = "/rails/public"
+tigris_bucket = ""
+url_prefix = "/"
+
+[[vm]]
+cpu_kind = "shared"
+cpus = 1
+memory = "1gb"
