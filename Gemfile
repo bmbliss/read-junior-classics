@@ -61,10 +61,10 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  gem "dockerfile-rails", ">= 1.6"
 end
 
 gem "revise_auth"
 gem "csv"
 gem 'pagy'
-
-gem "dockerfile-rails", ">= 1.6", :group => :development
