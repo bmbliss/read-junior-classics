@@ -90,6 +90,8 @@ GEM
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    dockerfile-rails (1.6.22)
+      rails (>= 3.0.0)
     drb (2.2.1)
     erubi (1.13.0)
     globalid (1.2.1)
@@ -143,7 +145,7 @@ GEM
     pg (1.5.8)
     psych (5.1.2)
       stringio
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.7)
@@ -226,7 +228,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webrick (1.8.1)
+    webrick (1.8.2)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -244,6 +246,7 @@ DEPENDENCIES
   bootsnap
   csv
   debug
+  dockerfile-rails (>= 1.6)
   importmap-rails
   pagy
   pg (~> 1.1)
