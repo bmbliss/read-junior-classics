@@ -6,6 +6,8 @@ class LiteraryWork < ApplicationRecord
   
   validates :title, presence: true
   validates :work_type, presence: true
+
+  before_save :calculate_estimated_reading_time
   
   enum work_type: {
     story: 0,
@@ -30,5 +32,15 @@ class LiteraryWork < ApplicationRecord
 
   def total_ratings
     reading_entries.where.not(rating: nil).count
+  end
+
+  private
+
+  def calculate_estimated_reading_time
+    return if content.blank?
+
+    words_per_minute = 200 # Average reading speed
+    word_count = content.split.size
+    self.estimated_reading_time = (word_count.to_f / words_per_minute.to_f).ceil
   end
 end

@@ -1,7 +1,8 @@
 <header class="bg-primary-500 text-white" data-controller="mobile-menu">
   <div class="container mx-auto px-4 py-4">
     <div class="flex justify-between items-center">
-      <%= link_to root_path, class: "text-2xl font-bold" do %>
+      <%= link_to root_path, class: "text-2xl font-bold flex items-center" do %>
+        <%= image_tag "medieval.png", alt: "Medieval Icon", class: "w-8 h-8 mr-2" %>
         Read the Junior Classics
       <% end %>
       <nav class="hidden md:block">

@@ -67,7 +67,7 @@ def find_matching_story_file(title, author)
   normalized_title = normalize_string(title)
   normalized_author = normalize_string(author)
 
-  Dir.glob(File.join(stories_dir, '*.txt')).find do |file|
+  Dir.glob(File.join(stories_dir, '**', '*.txt')).find do |file|
     filename = File.basename(file, '.txt')
     file_title, file_author = filename.split('by')
     
