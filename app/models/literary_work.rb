@@ -41,6 +41,6 @@ class LiteraryWork < ApplicationRecord
 
     words_per_minute = 200 # Average reading speed
     word_count = content.split.size
-    self.estimated_reading_time = (word_count / words_per_minute).ceil
+    self.estimated_reading_time = (word_count.to_f / words_per_minute.to_f).ceil
   end
 end
