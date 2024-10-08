@@ -8,7 +8,7 @@
       <%= t(".log_in_description") %>
     </p>
 
-    <%= form_with url: login_path, class: "mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8" do |form| %>
+    <%= form_with url: login_path, class: "bg-white mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8" do |form| %>
       <div>
         <%= form.label :email, class: "sr-only" %>
         <%= form.email_field :email, required: true, autofocus: true, class: "w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm", placeholder: "Enter email" %>
