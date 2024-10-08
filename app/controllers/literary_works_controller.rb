@@ -1,7 +1,7 @@
 class LiteraryWorksController < ApplicationController
   include Pagy::Backend
 
-  before_action :set_literary_work, only: %i[ edit update ]
+  before_action :set_literary_work, only: %i[ edit update read ]
 
   # GET /literary_works
   def index
@@ -45,6 +45,10 @@ class LiteraryWorksController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  # GET /literary_works/1/read
+  def read
   end
 
   private

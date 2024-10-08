@@ -11,7 +11,11 @@ Rails.application.routes.draw do
   
   resources :programs
   resources :collections
-  resources :literary_works
+  resources :literary_works do
+    member do
+      get 'read', to: 'literary_works#read'
+    end
+  end
   resources :reading_entries
 
   revise_auth
