@@ -10,7 +10,7 @@ task :fix_retold_by => :environment do
       old_content = []
 
       if content.include?('Retold by')
-        stories = content.split(/\n\n (.*)\n\nRetold by (.*)/)
+        stories = content.split(/\n\n(.*)\n\nRetold by (.*)/)
 
         # Remove the first element (text before the first story)
         old_content.push(stories.shift)
