@@ -21,11 +21,12 @@ task :line_by_line do
 
       # go back to previous poem and grab the title from the last line
       if poems.last
-        title = []
+        titles = []
         while !poems.last.empty? && poems.last.last.upcase == poems.last.last
-          title.unshift(poems.last.pop)
+          titles.unshift(poems.last.pop)
         end
-        curr_poem.unshift(*title)
+
+        curr_poem.unshift(titles.join(" "))
       end
     else
       curr_poem << line
@@ -37,7 +38,13 @@ task :line_by_line do
 
   # loop over the poems and save to their own files
   poems.each_with_index do |poem, index|
-    File.write("poems_line_by_line/#{index + 1}.txt", poem.join("\n"))
+    next if poem.empty?
+
+    title = poem.shift
+    author = poem.shift
+
+    filename = "#{title.strip}_by_#{author.sub("By", "").strip}_#{index + 1}".gsub(" ", "_")
+    File.write("poems_line_by_line/#{filename}.txt", poem.join("\n"))
   end
 end
 
