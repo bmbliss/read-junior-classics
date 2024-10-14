@@ -68,3 +68,4 @@ end
 gem "revise_auth"
 gem "csv"
 gem 'pagy'
+gem 'string-similarity'
