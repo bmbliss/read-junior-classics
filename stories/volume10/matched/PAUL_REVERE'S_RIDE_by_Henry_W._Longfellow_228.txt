@@ -1,4 +1,4 @@
-ISTEN, my children, and you shall hear Of the midnight ride of Paul Revere,
+LISTEN, my children, and you shall hear Of the midnight ride of Paul Revere,
 On the eighteenth of April, in Seventy-Five:
 Hardly aman is now alive Who remembers that famous day and year.
 He said to his friend "If the British march
@@ -12,9 +12,8 @@ For the country-folk to be up and to arm."
 Then he said good-night, and with muffled oar Silently row'd to the Charlestown shore,
 Just as the moon rose over the bay,
 Where swinging wide at her moorings lay The Somerset, British man-of-war :
-Jun. Cl-10 323 11
-PAUL REVERE'S RIDE
-Aphantom ship, with each mast and spar
+
+A phantom ship, with each mast and spar
 Across the moon, like a prison-bar,
 And ahuge, black hulk, that was magnified
 By its own reflection in the tide.
@@ -39,7 +38,7 @@ Wrapp'd in silence so deep and still,
 That he could hear, like a sentinel's tread,
 The watchful night-wind as it went Creeping along from tent to tent,
 Andseeming to whisper, "All is well!"
-PAUL REVERE'S RIDE
+
 Amoment only he feels the spell Of the place and the hour, the secret dread
 Of the lonely belfry and the dead;
 For suddenly all his thoughts are bent On a shadowy something far away,
@@ -66,7 +65,7 @@ spark
 Struck out by asteed that flies fearless and fleet :
 That was all! And yet, through the gloom and
 the light,
-PAUL REVERE'S RIDE
+
 The fate of a nation was riding that night ;
 And the spark struck out by that steed, in his flight,
 Kindled the land into flame with its heat.
@@ -95,7 +94,7 @@ And one was safe and asleep in his bed
 Who at the bridge would be first to fall,
 Who that day would be lying dead,
 Pierced by a British musket-ball.
-NASEBY
+
 You know the rest. In the books you have read How the British regulars fired and fled ;
 How the farmers gave them ball for ball,
 From behind each fence and farmyard-wall,

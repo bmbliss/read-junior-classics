@@ -53,15 +53,15 @@ task literary_work_content: :environment do
       work.update(content: content)
       updated_works += 1
 
-      file_parts = story_file.split('/')
-      file_name = file_parts.pop
-      volume_dir = file_parts.pop
+      # file_parts = story_file.split('/')
+      # file_name = file_parts.pop
+      # volume_dir = file_parts.pop
 
       # move the file to the stories/volumeX/matched folder
-      matched_dir = Rails.root.join('stories', volume_dir, 'matched')
-      FileUtils.mkdir_p(matched_dir)
-      FileUtils.mv(story_file, matched_dir)
-      puts "Updated content for '#{work.title}' by #{work.author}"
+      # matched_dir = Rails.root.join('stories', volume_dir, 'matched')
+      # FileUtils.mkdir_p(matched_dir)
+      # FileUtils.mv(story_file, matched_dir)
+      # puts "Updated content for '#{work.title}' by #{work.author}"
     else
       puts "No matching story file found for '#{work.title}' by #{work.author}"
     end
