@@ -23,6 +23,8 @@ task literary_work_content: :environment do
   end
 
   def normalize_author(author)
+    return "" unless author
+
     splitter = if author.include?('_')
                   "_"
                 else
@@ -39,7 +41,7 @@ task literary_work_content: :environment do
       filtered_parts << last
     end
 
-    filtered_parts.join.downcase
+    filtered_parts.join.downcase.gsub(/[^a-z]/, '')
   end
 
   total_works = LiteraryWork.count
@@ -63,12 +65,12 @@ task literary_work_content: :environment do
       # FileUtils.mv(story_file, matched_dir)
       # puts "Updated content for '#{work.title}' by #{work.author}"
     else
-      puts "No matching story file found for '#{work.title}' by #{work.author}"
+      puts "No matching story file found for '#{work.title}' by #{work.author} volume #{work.volume}"
     end
 
-    if (index + 1) % 100 == 0
-      puts "Processed #{index + 1} of #{total_works} works"
-    end
+    # if (index + 1) % 100 == 0
+    #   puts "Processed #{index + 1} of #{total_works} works"
+    # end
   end
 
   not_found_works = total_works - updated_works
