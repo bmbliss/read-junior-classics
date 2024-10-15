@@ -33,7 +33,7 @@ task match_remaining_files: :environment do
   end
 
   def rename_and_move_file(file, work)
-    new_filename = "#{work.title} by #{work.author}.txt".gsub(/[^\w\s.-]/, '_')
+    new_filename = "#{work.title} by #{work.author}.txt".gsub(' ', '_')
     volume_dir = File.dirname(file)
     matched_dir = File.join(volume_dir, 'matched')
     FileUtils.mkdir_p(matched_dir)
@@ -53,8 +53,8 @@ task match_remaining_files: :environment do
     if possible_matches.any?
       chosen_work = present_matches(file, possible_matches)
       if chosen_work
-        rename_and_move_file(file, chosen_work)
         chosen_work.update(content: File.read(file))
+        rename_and_move_file(file, chosen_work)
         processed_files += 1
       end
     else
