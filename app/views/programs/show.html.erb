@@ -12,6 +12,9 @@
     </div>
     
     <p class="text-gray-600 mb-4"><%= @program.description %></p>
+
+    <p class="text-gray-600 text-md font-normal mb-2"><%= @program_items.count %> works | Est. <%= @program.total_reading_time %></p>
+    
     <div class="text-sm text-gray-500">
       Last updated <%= @program.updated_at.strftime("%B %d, %Y") %>
     </div>
@@ -35,7 +38,6 @@
 
   <h2 class="font-bold text-2xl mb-4">
     Literary Works in this Program
-    <span class="text-gray-600 text-lg font-normal">(<%= @program_items.count %>)</span>
   </h2>
 
   <div class="bg-white rounded-lg shadow-md">

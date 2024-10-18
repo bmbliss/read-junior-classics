@@ -8,10 +8,7 @@
     <p class="text-gray-500 mt-1">
       <%= literary_work.work_type.titleize %> 
       <% if literary_work.volume.present? %>
-        | Volume: <%= literary_work.volume %>
-      <% end %>
-      <% if literary_work.page.present? %>
-        | Page: <%= literary_work.page %>
+        | <%= literary_work.estimated_reading_time %> min
       <% end %>
     </p>
     <p class="text-gray-600 mt-2"><%= truncate(literary_work.description, length: 150) %></p>
