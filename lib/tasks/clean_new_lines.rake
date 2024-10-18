@@ -7,6 +7,9 @@ task :clean_new_lines do
   Dir.glob(File.join(stories_dir, '**', '*.txt')).each do |file|
     # dirname = File.dirname(file)
     # filename = File.basename(file, '.txt')
+    
+    # skip the poems
+    next if file.include?("volume10")
 
     content = File.read(file)
     clean = content.gsub("\n\n", "<p>").gsub("\n", " ").gsub("<p>", "\n\n")
