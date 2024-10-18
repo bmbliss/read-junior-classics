@@ -6,33 +6,12 @@
     <%= link_to "New literary work", new_literary_work_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium hover:bg-blue-700 transition duration-150 ease-in-out" %>
   </div>
 
-  <div class="grid grid-cols-1 gap-6">
-    <% @literary_works.each do |literary_work| %>
-      <%= link_to literary_work_path(literary_work), class: "block" do %>
-        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-150 ease-in-out p-6">
-          <div class="flex justify-between items-start mb-2">
-            <h2 class="font-semibold text-xl text-blue-600 hover:text-blue-800"><%= literary_work.title %></h2>
-            <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-              <%= literary_work.work_type.titleize %>
-            </span>
-          </div>
-          <p class="text-gray-600 mb-2">by <%= literary_work.author %></p>
-          <% if literary_work.volume.present? || literary_work.page.present? %>
-            <p class="text-gray-500 text-sm mb-2">
-              <% if literary_work.volume.present? %>
-                Volume: <%= literary_work.volume %>
-              <% end %>
-              <% if literary_work.page.present? %>
-                <%= " | " if literary_work.volume.present? %>Page: <%= literary_work.page %>
-              <% end %>
-            </p>
-          <% end %>
-          <p class="text-gray-600">
-            <%= truncate(literary_work.description, length: 150) %>
-          </p>
-        </div>
+  <div class="bg-white rounded-lg shadow-md">
+    <ul class="divide-y divide-gray-200">
+      <% @literary_works.each do |literary_work| %>
+        <%= render 'literary_works/literary_work_card', literary_work: literary_work %>
       <% end %>
-    <% end %>
+    </ul>
   </div>
 
   <div class="mt-8">

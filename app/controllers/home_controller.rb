@@ -4,7 +4,7 @@ class HomeController < ApplicationController
       @children = current_user.children.includes(program_enrollments: :program)
     end
     
-    @featured_programs = Program.order(created_at: :desc).limit(3)
+    @featured_programs = Program.order(created_at: :desc).limit(5)
     @recent_literary_works = LiteraryWork.order(created_at: :desc).limit(5)
     @collections = Collection.order(created_at: :desc).limit(3)
   end
