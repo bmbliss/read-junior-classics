@@ -9,8 +9,11 @@ task literary_work_content: :environment do
   
     Dir.glob(File.join(stories_dir, '**', '*.txt')).find do |file|
       filename = File.basename(file, '.txt')
-      file_title, file_author = filename.split('by')
-      
+      parts = filename.split('_By_')
+
+      file_author = parts.pop
+      file_title = parts.join("_By_")
+
       normalized_file_title = normalize_title(file_title)
       normalized_file_author = normalize_author(file_author)
   
