@@ -14,10 +14,7 @@
         <p class="text-sm text-gray-600">
           <%= program_item.literary_work.work_type.titleize %> 
           <% if program_item.literary_work.volume.present? %>
-            | Volume: <%= program_item.literary_work.volume %>
-          <% end %>
-          <% if program_item.literary_work.page.present? %>
-            | Page: <%= program_item.literary_work.page %>
+            | <%= program_item.literary_work.estimated_reading_time %> min
           <% end %>
         </p>
       </div>
