@@ -15,8 +15,8 @@ class ProgramEnrollmentsController < ApplicationController
   end
 
   def create
-    @program = Program.find(params[:program_id])
-    @child = current_user.children.find(params[:child_id])
+    @program = Program.find(program_enrollment_params[:program_id])
+    @child = current_user.children.find(program_enrollment_params[:child_id])
     @program_enrollment = ProgramEnrollment.new(program: @program, child: @child)
 
     if @program_enrollment.save

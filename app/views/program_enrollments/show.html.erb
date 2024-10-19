@@ -5,7 +5,11 @@
         <h1 class="text-3xl font-bold mb-2"><%= @program_enrollment.program.name %></h1>
         <h2 class="text-xl font-semibold text-gray-600 mb-4"><%= @program_enrollment.child.name %>'s Progress</h2>
         <p class="text-gray-600 mb-2">Total Literary Works: <%= @program_enrollment.program.program_items.count %></p>
-        <p class="text-gray-600 mb-4"><span id="program-progress-percentage"><%= @program_enrollment.progress_percentage %></span>% complete</p>
+        <p class="text-gray-600 text-md font-normal mb-2">Estimated Reading Time: <%= @program_enrollment.program.total_reading_time %></p>
+        <p class="text-gray-600 mb-2"><span id="program-progress-percentage"><%= @program_enrollment.progress_percentage %></span>% complete</p>
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+          <div class="bg-primary-600 h-2.5 rounded-full" style="width: <%= @program_enrollment.progress_percentage %>%"></div>
+        </div>
       </div>
       <%= button_to 'Unenroll', program_enrollment_path(@program_enrollment), method: :delete, data: { turbo_confirm: 'Are you sure you want to unenroll from this program?' }, class: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' %>
     </div>
