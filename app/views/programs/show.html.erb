@@ -1,9 +1,9 @@
 <div class="container mx-auto">
   <% content_for :title, @program.name %>
 
-  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
     <div class="flex justify-between items-start mb-4">
-      <h1 class="font-bold text-3xl"><%= @program.name %></h1>
+      <h1 class="font-bold text-3xl text-primary-600 dark:text-primary-dark-600"><%= @program.name %></h1>
       <% if @program.recommended_grade %>
         <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
           Grade <%= @program.recommended_grade %>
@@ -11,9 +11,9 @@
       <% end %>
     </div>
     
-    <p class="text-gray-600 mb-4"><%= @program.description %></p>
+    <p class="text-gray-600 dark:text-slate-400 mb-4"><%= @program.description %></p>
 
-    <p class="text-gray-600 text-md font-normal mb-2"><%= @program_items.count %> works | Est. <%= @program.total_reading_time %></p>
+    <p class="text-gray-600 dark:text-slate-400 text-md font-normal mb-2"><%= @program_items.count %> works | Est. <%= @program.total_reading_time %></p>
     
     <div class="text-sm text-gray-500">
       Last updated <%= @program.updated_at.strftime("%B %d, %Y") %>
@@ -21,11 +21,11 @@
   </div>
 
   <% if user_signed_in? %>
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-      <h2 class="font-bold text-2xl mb-4">Enrollment Status</h2>
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
+      <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4 text-primary-600 dark:text-primary-dark-600">Enrollment Status</h2>
       <% current_user.children.each do |child| %>
         <div class="flex justify-between items-center mb-4">
-          <span><%= child.name %> (Grade <%= child.grade_level %>)</span>
+          <span class="text-gray-600 dark:text-slate-400"><%= child.name %> (Grade <%= child.grade_level %>)</span>
           <% if child.program_enrollments.exists?(program: @program) %>
             <%= link_to "View Enrollment", program_enrollment_path(child.program_enrollments.find_by(program: @program)), class: "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" %>
           <% else %>
@@ -36,11 +36,11 @@
     </div>
   <% end %>
 
-  <h2 class="font-bold text-2xl mb-4">
+  <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4 text-primary-600 dark:text-primary-dark-600">
     Literary Works in this Program
   </h2>
 
-  <div class="bg-white rounded-lg shadow-md">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md">
     <ul class="divide-y divide-gray-200">
       <% @program_items.each do |item| %>
         <%= render 'literary_works/literary_work_card', literary_work: item.literary_work %>
