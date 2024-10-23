@@ -15,10 +15,10 @@ export default class extends Controller {
   showTab(tabName) {
     this.tabTargets.forEach(tab => {
       if (tab.dataset.tab === tabName) {
-        tab.classList.add("border-primary-500", "text-primary-600")
+        tab.classList.add("border-primary-500", "text-primary-600", "dark:text-primary-dark-600")
         tab.classList.remove("border-transparent", "text-gray-500")
       } else {
-        tab.classList.remove("border-primary-500", "text-primary-600")
+        tab.classList.remove("border-primary-500", "text-primary-600", "dark:text-primary-dark-600")
         tab.classList.add("border-transparent", "text-gray-500")
       }
     })

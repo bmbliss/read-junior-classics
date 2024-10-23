@@ -2,11 +2,11 @@
   <% content_for :title, "Literary Works" %>
 
   <div class="flex justify-between items-center mb-8">
-    <h1 class="font-bold text-4xl">Literary Works</h1>
+    <h1 class="font-bold text-4xl text-primary-600 dark:text-primary-dark-600">Literary Works</h1>
     <%= link_to "New literary work", new_literary_work_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium hover:bg-blue-700 transition duration-150 ease-in-out" %>
   </div>
 
-  <div class="bg-white rounded-lg shadow-md">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md">
     <ul class="divide-y divide-gray-200">
       <% @literary_works.each do |literary_work| %>
         <%= render 'literary_works/literary_work_card', literary_work: literary_work %>

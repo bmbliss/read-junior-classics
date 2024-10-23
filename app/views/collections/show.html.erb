@@ -1,26 +1,26 @@
 <div class="container mx-auto">
   <% content_for :title, @collection.name %>
 
-  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
     <div class="flex justify-between items-start mb-4">
-      <h1 class="font-bold text-3xl"><%= @collection.name %></h1>
+      <h1 class="font-bold text-3xl text-primary-600 dark:text-primary-dark-600"><%= @collection.name %></h1>
     </div>
     
-    <p class="text-gray-600 mb-4"><%= @collection.description %></p>
+    <p class="text-gray-600 dark:text-slate-400 mb-4"><%= @collection.description %></p>
 
-    <p class="text-gray-600 text-md font-normal mb-2"><%= @collection.literary_works.count %> works | Est. <%= @collection.total_reading_time %></p>
+    <p class="text-gray-600 dark:text-slate-400 text-md font-normal mb-2"><%= @collection.literary_works.count %> works | Est. <%= @collection.total_reading_time %></p>
 
     <div class="text-sm text-gray-500">
       Last updated <%= @collection.updated_at.strftime("%B %d, %Y") %>
     </div>
   </div>
 
-  <h2 class="font-bold text-2xl mb-4">
+  <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4 text-primary-600 dark:text-primary-dark-600">
     Literary Works in this Collection
-    <span class="text-gray-600 text-lg font-normal"></span>
+    <span class="text-gray-600 dark:text-slate-400 text-lg font-normal"></span>
   </h2>
 
-  <div class="bg-white rounded-lg shadow-md">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md">
     <ul class="divide-y divide-gray-200">
       <% @collection.literary_works.each do |literary_work| %>
         <%= render 'literary_works/literary_work_card', literary_work: literary_work %>

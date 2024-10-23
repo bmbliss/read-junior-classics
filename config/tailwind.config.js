@@ -25,6 +25,18 @@ module.exports = {
           800: '#002973',
           900: '#001a4d',
         },
+        'primary-dark': {
+          50: '#f0f7ff',
+          100: '#c2e0ff',
+          200: '#99ccff',
+          300: '#66b2ff',
+          400: '#3399ff',
+          500: '#007fff',
+          600: '#0066cc',
+          700: '#004d99',
+          800: '#003366',
+          900: '#001a33',
+        },
       },
     },
   },
@@ -32,5 +44,6 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/container-queries'),
-  ]
+  ],
+  darkMode: 'class',
 }
