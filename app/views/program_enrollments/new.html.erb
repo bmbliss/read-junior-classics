@@ -1,5 +1,5 @@
 <div class="container mx-auto">
-  <h1 class="text-3xl font-bold mb-6">Enroll in a New Program</h1>
+  <h1 class="text-3xl font-bold mb-6 text-primary-600 dark:text-primary-dark-600">Enroll in a New Program</h1>
 
   <%= form_with(model: @program_enrollment, local: true, class: 'max-w-md') do |form| %>
     <% if @program_enrollment.errors.any? %>
@@ -14,13 +14,13 @@
     <% end %>
 
     <div class="mb-4">
-      <%= form.label :child_id, class: 'block text-gray-700 text-sm font-bold mb-2' %>
-      <%= form.collection_select :child_id, current_user.children, :id, :name, {prompt: 'Select a child'}, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' %>
+      <%= form.label :child_id, class: 'block text-gray-600 dark:text-slate-400 text-sm font-bold mb-2' %>
+      <%= form.collection_select :child_id, current_user.children, :id, :name, {prompt: 'Select a child'}, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 dark:text-slate-400 leading-tight focus:outline-none focus:shadow-outline' %>
     </div>
 
     <div class="mb-4">
-      <%= form.label :program_id, class: 'block text-gray-700 text-sm font-bold mb-2' %>
-      <%= form.collection_select :program_id, Program.all, :id, :name, {prompt: 'Select a program'}, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' %>
+      <%= form.label :program_id, class: 'block text-gray-600 dark:text-slate-400 text-sm font-bold mb-2' %>
+      <%= form.collection_select :program_id, Program.all, :id, :name, {prompt: 'Select a program'}, class: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 dark:text-slate-400 leading-tight focus:outline-none focus:shadow-outline' %>
     </div>
 
     <div class="flex items-center justify-between">

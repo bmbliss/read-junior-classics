@@ -92,10 +92,10 @@ export default class extends Controller {
   updateNotesDisplay(notes) {
     if (this.hasExistingNotesTarget) {
       this.existingNotesTarget.innerHTML = `
-        <p class="text-sm text-gray-600 mb-2">
+        <p class="text-sm text-gray-600 dark:text-slate-400 mb-2">
           <strong>Notes:</strong> ${this.truncate(notes, 100)}
         </p>
-        <button class="text-sm text-primary-500 hover:text-primary-600" data-action="click->reading-entry#editNotes">
+        <button class="text-sm text-primary-500 hover:text-primary-600 dark:text-primary-dark-600" data-action="click->reading-entry#editNotes">
           Edit Notes
         </button>
       `
@@ -103,10 +103,10 @@ export default class extends Controller {
     } else {
       this.addNotesTarget.innerHTML = `
         <div data-reading-entry-target="existingNotes">
-          <p class="text-sm text-gray-600 mb-2">
+          <p class="text-sm text-gray-600 dark:text-slate-400 mb-2">
             <strong>Notes:</strong> ${this.truncate(notes, 100)}
           </p>
-          <button class="text-sm text-primary-500 hover:text-primary-600" data-action="click->reading-entry#editNotes">
+          <button class="text-sm text-primary-500 hover:text-primary-600 dark:text-primary-dark-600" data-action="click->reading-entry#editNotes">
             Edit Notes
           </button>
         </div>

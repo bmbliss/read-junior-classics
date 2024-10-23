@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full">
+<html class="h-full" data-controller="theme">
   <head>
     <title><%= content_for?(:title) ? yield(:title) + " | " : "" %>Read Junior Classics</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -12,7 +12,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="flex flex-col min-h-screen bg-gray-50">
+  <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-slate-900">
     <%= render 'shared/header' %>
 
     <main class="flex-grow">

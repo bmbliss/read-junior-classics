@@ -1,17 +1,17 @@
-<div class="bg-white shadow rounded-lg p-4 mb-4" data-controller="reading-entry" data-reading-entry-completed-value="<%= completed %>" data-reading-entry-url-value="<%= program_enrollment_reading_entries_path(program_enrollment) %>" data-reading-entry-literary-work-id-value="<%= program_item.literary_work.id %>">
+<div class="bg-white dark:bg-slate-800 shadow rounded-lg p-4 mb-4" data-controller="reading-entry" data-reading-entry-completed-value="<%= completed %>" data-reading-entry-url-value="<%= program_enrollment_reading_entries_path(program_enrollment) %>" data-reading-entry-literary-work-id-value="<%= program_item.literary_work.id %>">
   <div class="flex items-start justify-between">
     <div class="flex items-start">
       <input type="checkbox" 
-             class="form-checkbox h-5 w-5 text-primary-600 mt-1" 
+             class="form-checkbox h-5 w-5 text-primary-600 dark:text-primary-dark-600 mt-1" 
              <%= 'checked' if completed %>
              data-action="change->reading-entry#toggleStatus"
              data-reading-entry-target="checkbox">
       <div class="ml-3">
-        <h4 class="text-lg font-medium"><%= link_to program_item.literary_work.title, literary_work_path(program_item.literary_work), class: "text-primary-500 hover:text-primary-600" %></h4>
-        <p class="text-sm text-gray-600">
+        <h4 class="text-lg font-medium"><%= link_to program_item.literary_work.title, literary_work_path(program_item.literary_work), class: "text-primary-500 hover:text-primary-600 dark:text-primary-dark-600" %></h4>
+        <p class="text-sm text-gray-600 dark:text-slate-400">
           by <%= program_item.literary_work.author %>
         </p>
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 dark:text-slate-400">
           <%= program_item.literary_work.work_type.titleize %> 
           <% if program_item.literary_work.volume.present? %>
             | <%= program_item.literary_work.estimated_reading_time %> min
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="flex items-center">
-      <label class="mr-2 text-sm">Rating:</label>
+      <label class="mr-2 text-sm dark:text-white">Rating:</label>
       <select class="form-select text-sm" data-action="change->reading-entry#updateRating" data-reading-entry-target="rating">
         <option value="">Not rated</option>
         <% (1..10).each do |i| %>
@@ -35,24 +35,24 @@
     <% existing_notes = @program_enrollment.reading_entries.find_by(literary_work: program_item.literary_work)&.notes %>
     <% if existing_notes.present? %>
       <div data-reading-entry-target="existingNotes">
-        <p class="text-sm text-gray-600 mb-2">
+        <p class="text-sm text-gray-600 dark:text-slate-400 mb-2">
           <strong>Notes:</strong> <%= truncate(existing_notes, length: 100) %>
         </p>
-        <button class="text-sm text-primary-500 hover:text-primary-600" data-action="click->reading-entry#editNotes">
+        <button class="text-sm text-primary-500 hover:text-primary-600 dark:text-primary-dark-600" data-action="click->reading-entry#editNotes">
           Edit Notes
         </button>
       </div>
     <% else %>
       <div data-reading-entry-target="addNotes">
-        <button class="text-sm text-primary-500 hover:text-primary-600" data-action="click->reading-entry#addNotes">
+        <button class="text-sm text-primary-500 hover:text-primary-600 dark:text-primary-dark-600" data-action="click->reading-entry#addNotes">
           Add Notes
         </button>
       </div>
     <% end %>
     <div class="hidden" data-reading-entry-target="editNotesSection">
-      <textarea class="mt-2 w-full p-2 border rounded" rows="3" placeholder="Enter your notes here..." data-reading-entry-target="notesTextarea"><%= existing_notes %></textarea>
+      <textarea class="mt-2 w-full p-2 border rounded dark:bg-gray-100" rows="3" placeholder="Enter your notes here..." data-reading-entry-target="notesTextarea"><%= existing_notes %></textarea>
       <div class="mt-2 flex justify-end space-x-2">
-        <button class="bg-gray-300 text-gray-700 px-3 py-1 rounded text-sm" data-action="click->reading-entry#cancelNotes">Cancel</button>
+        <button class="bg-gray-300 text-gray-600 px-3 py-1 rounded text-sm" data-action="click->reading-entry#cancelNotes">Cancel</button>
         <button class="bg-primary-500 text-white px-3 py-1 rounded text-sm" data-action="click->reading-entry#saveNotes">Save Notes</button>
       </div>
     </div>
