@@ -10,8 +10,67 @@
 
   <h1 class="text-2xl font-bold mb-2 text-primary-600 dark:text-primary-dark-600"><%= @literary_work.title %></h1>
   <p class="text-gray-600 dark:text-slate-400 mb-2">by <%= @literary_work.author %></p>
-  <p class="text-sm text-gray-500 mb-4">Est. reading time: <%= @literary_work.estimated_reading_time %> min</p>
+  <p class="text-sm text-gray-500 mb-4">
+    Est. reading time: <%= @literary_work.estimated_reading_time %> min
+    <span id="wakeLockIndicator" class="ml-2" title="Wake Lock Status">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" viewBox="0 0 20 20" fill="currentColor" id="wakeLockIcon">
+        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+      </svg>
+    </span>
+  </p>
   <div class="prose prose-md sm:prose lg:prose-lg dark:text-slate-400">
     <%= simple_format(@literary_work.content) %>
   </div>
 </div>
+
+<script>
+  let wakeLock = null;
+  const wakeLockIndicator = document.getElementById('wakeLockIndicator');
+  const wakeLockIcon = document.getElementById('wakeLockIcon');
+
+  async function requestWakeLock() {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      console.log('Wake Lock is active');
+      wakeLockIcon.classList.remove('hidden');
+      wakeLockIndicator.title = 'Wake Lock is active';
+    } catch (err) {
+      console.error(`${err.name}, ${err.message}`);
+      wakeLockIcon.classList.add('hidden');
+      wakeLockIndicator.title = 'Wake Lock is not active';
+    }
+  }
+
+  function releaseWakeLock() {
+    if (wakeLock !== null) {
+      wakeLock.release()
+        .then(() => {
+          console.log('Wake Lock is released');
+          wakeLock = null;
+          wakeLockIcon.classList.add('hidden');
+          wakeLockIndicator.title = 'Wake Lock is not active';
+        });
+    }
+  }
+
+  // Request wake lock when the page loads
+  if ('wakeLock' in navigator) {
+    requestWakeLock();
+    // Re-request wake lock if the page becomes visible again
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        requestWakeLock();
+      } else {
+        releaseWakeLock();
+      }
+    });
+  } else {
+    console.log('Wake Lock API not supported');
+    wakeLockIcon.classList.add('hidden');
+    wakeLockIndicator.title = 'Wake Lock API not supported';
+  }
+
+  // Release wake lock when the page is unloaded
+  window.addEventListener('beforeunload', releaseWakeLock);
+</script>
