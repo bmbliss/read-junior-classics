@@ -12,7 +12,24 @@ class LiteraryWorksController < ApplicationController
   # GET /literary_works/1
   def show
     @literary_work = LiteraryWork.includes(:collections, :programs, :reading_entries).find(params[:id])
-    add_breadcrumb "Literary Works", literary_works_path
+    
+    # Build breadcrumbs based on referrer
+    previous_path = session[:path_history][-2] # Get second-to-last path
+    
+    if previous_path&.include?('/collections/')
+      collection_id = previous_path.match(/\/collections\/(\d+)/)[1]
+      collection = Collection.find(collection_id)
+      add_breadcrumb "Collections", collections_path
+      add_breadcrumb collection.name, collection_path(collection)
+    elsif previous_path&.include?('/programs/')
+      program_id = previous_path.match(/\/programs\/(\d+)/)[1]
+      program = Program.find(program_id)
+      add_breadcrumb "Programs", programs_path
+      add_breadcrumb program.name, program_path(program)
+    else
+      add_breadcrumb "Literary Works", literary_works_path
+    end
+    
     add_breadcrumb @literary_work.title
   end
 
