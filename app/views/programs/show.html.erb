@@ -12,8 +12,9 @@
     </div>
     
     <p class="text-gray-600 dark:text-slate-400 mb-4"><%= @program.description %></p>
-
-    <p class="text-gray-600 dark:text-slate-400 text-md font-normal mb-2"><%= @program_items.count %> works | Est. <%= @program.total_reading_time %></p>
+    <p class="text-gray-600 dark:text-slate-400 text-md font-normal mb-2">
+      <%= @program.literary_works.count %> works | Est. <%= @program.total_reading_time %>
+    </p>
     
     <div class="text-sm text-gray-500">
       Last updated <%= @program.updated_at.strftime("%B %d, %Y") %>
@@ -22,28 +23,36 @@
 
   <% if user_signed_in? %>
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
-      <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4 text-primary-600 dark:text-primary-dark-600">Enrollment Status</h2>
+      <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4">Reading Progress</h2>
       <% current_user.children.each do |child| %>
-        <div class="flex justify-between items-center mb-4">
-          <span class="text-gray-600 dark:text-slate-400"><%= child.name %> (Grade <%= child.grade_level %>)</span>
-          <% if child.program_enrollments.exists?(program: @program) %>
-            <%= link_to "View Enrollment", program_enrollment_path(child.program_enrollments.find_by(program: @program)), class: "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" %>
-          <% else %>
-            <%= button_to "Enroll", program_enrollments_path(program_enrollment: { program_id: @program.id, child_id: child.id }), method: :post, class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
-          <% end %>
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-600 dark:text-slate-400">
+              <%= child.name %> (Grade <%= child.grade_level %>)
+            </span>
+            <span class="text-sm text-gray-600 dark:text-slate-400">
+              Progress: <%= child.progress_in_program(@program) %>%
+            </span>
+          </div>
+          
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-primary-600 h-2.5 rounded-full" 
+                 style="width: <%= child.progress_in_program(@program) %>%">
+            </div>
+          </div>
         </div>
       <% end %>
     </div>
   <% end %>
 
-  <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4 text-primary-600 dark:text-primary-dark-600">
+  <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4">
     Literary Works in this Program
   </h2>
 
   <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md">
     <ul class="divide-y divide-gray-200">
-      <% @program_items.each do |item| %>
-        <%= render 'literary_works/literary_work_card', literary_work: item.literary_work %>
+      <% @program.literary_works.each do |work| %>
+        <%= render 'literary_works/literary_work_card', literary_work: work %>
       <% end %>
     </ul>
   </div>

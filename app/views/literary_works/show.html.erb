@@ -10,7 +10,7 @@
     </div>
     
     <p class="text-gray-600 dark:text-slate-400 mb-4">by <%= @literary_work.author %></p>
-    
+
     <% if @literary_work.volume.present? || @literary_work.page.present? %>
       <p class="text-gray-500 mb-4">
         <% if @literary_work.volume.present? %>
@@ -21,63 +21,60 @@
         <% end %>
       </p>
     <% end %>
-    
+
     <p class="text-gray-600 dark:text-slate-400 mb-4"><%= @literary_work.description %></p>
-    
-    <div class="flex items-center mb-4">
-      <span class="text-yellow-500 mr-1">
-        <% full_stars = (@average_rating / 2).floor %>
-        <% half_star = @average_rating % 2 >= 1 %>
-        <% empty_stars = 5 - full_stars - (half_star ? 1 : 0) %>
-        
-        <%= "★" * full_stars %><%= "★½" if half_star %><%= "☆" * empty_stars %>
-      </span>
-      <span class="text-gray-600 dark:text-slate-400">
-        <%= @average_rating %> / 10 (<%= @total_ratings %> <%= 'rating'.pluralize(@total_ratings) %>)
-      </span>
+
+    <div class="mb-4">
+      <%= render "star_rating", 
+                rating: @literary_work.average_rating,
+                total_ratings: @literary_work.total_ratings %>
     </div>
 
-    <!-- Add estimated reading time here -->
     <% if @literary_work.content.present? %>
       <div class="text-gray-600 dark:text-slate-400 mb-4">
         <span class="font-semibold">Estimated reading time:</span> <%= @literary_work.estimated_reading_time %> <%= 'minute'.pluralize(@literary_work.estimated_reading_time) %>
       </div>
     <% end %>
 
-    <div class="text-sm text-gray-500">
-      Last updated <%= @literary_work.updated_at.strftime("%B %d, %Y") %>
-    </div>
-  </div>
+    <% if user_signed_in? %>
+      <div class="mb-6 border-t border-gray-200 pt-4">
+        <h2 class="text-xl font-semibold mb-4 dark:text-white">Reading Progress</h2>
+        
+        <!-- User's own reading progress -->
+        <div class="mb-4" data-controller="reading-entry" 
+             data-reading-entry-literary-work-id-value="<%= @literary_work.id %>">
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600 dark:text-slate-400">Your Progress:</span>
+            <%= render "reading_entries/progress_form", 
+                      reading_entry: current_user.reading_entries.find_or_initialize_by(literary_work: @literary_work),
+                      reader: current_user %>
+          </div>
+        </div>
 
-  <% if @literary_work.content.present? %>
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600">Content</h2>
-        <%= link_to "Reading Mode", read_literary_work_path(@literary_work), class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" %>
+        <!-- Children's reading progress -->
+        <% current_user.children.each do |child| %>
+          <div class="mb-4" data-controller="reading-entry" 
+               data-reading-entry-literary-work-id-value="<%= @literary_work.id %>"
+               data-reading-entry-child-id-value="<%= child.id %>">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600 dark:text-slate-400"><%= child.name %>'s Progress:</span>
+              <%= render "reading_entries/progress_form", 
+                        reading_entry: child.reading_entries.find_or_initialize_by(literary_work: @literary_work),
+                        reader: child %>
+            </div>
+          </div>
+        <% end %>
       </div>
-      <div class="text-gray-600 dark:text-slate-400 whitespace-pre-wrap"><%= @literary_work.content %></div>
-    </div>
-  <% end %>
-
-  <% if @literary_work.collections.any? %>
-    <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4 text-primary-600 dark:text-primary-dark-600">Collections</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-      <% @literary_work.collections.each do |collection| %>
-        <%= render 'collections/collection_card', collection: collection %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% if @literary_work.programs.any? %>
-    <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4 text-primary-600 dark:text-primary-dark-600">Programs</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-      <% @literary_work.programs.each do |program| %>
-        <%= render 'programs/program_card', program: program %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <div class="flex space-x-4">
-    <%= link_to "Edit this literary work", edit_literary_work_path(@literary_work), class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium hover:bg-blue-700 transition duration-150 ease-in-out" %>
+    <% end %>
   </div>
 </div>
+
+<% if @literary_work.content.present? %>
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600">Content</h2>
+      <%= link_to "Reading Mode", read_literary_work_path(@literary_work), class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" %>
+    </div>
+    <div class="text-gray-600 dark:text-slate-400 whitespace-pre-wrap"><%= @literary_work.content %></div>
+  </div>
+<% end %>

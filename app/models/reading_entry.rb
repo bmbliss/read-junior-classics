@@ -1,12 +1,7 @@
 class ReadingEntry < ApplicationRecord
-  belongs_to :program_enrollment
+  belongs_to :reader, polymorphic: true
   belongs_to :literary_work
-  has_one :child, through: :program_enrollment
-  has_one :user, through: :child
-
-  enum status: { in_progress: 0, completed: 1 }
-
-  scope :completed, -> { where(status: :completed) }
+  belongs_to :program, optional: true  # Optional because you might read works outside of programs
 
   validates :status, presence: true
   validates :date_read, presence: true

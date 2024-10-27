@@ -11,6 +11,11 @@
         | <%= literary_work.estimated_reading_time %> min
       <% end %>
     </p>
+
+    <%= render "literary_works/star_rating", 
+                rating: literary_work.average_rating,
+                total_ratings: literary_work.total_ratings %>
+
     <p class="text-gray-600 dark:text-slate-400 mt-2"><%= truncate(literary_work.description, length: 150) %></p>
   <% end %>
 </li>

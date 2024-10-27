@@ -1,0 +1,24 @@
+<div class="flex items-center space-x-4">
+  <div class="flex items-center">
+    <input type="checkbox" 
+           id="status_<%= dom_id(reader) %>"
+           class="form-checkbox"
+           data-reading-entry-target="checkbox"
+           data-action="change->reading-entry#toggleStatus"
+           <%= reading_entry.persisted? ? 'checked' : '' %>>
+    <label class="ml-2 text-sm">Completed</label>
+  </div>
+
+  <div class="flex items-center">
+    <label class="mr-2 text-sm">Rating:</label>
+    <select class="form-select text-sm" 
+            data-action="change->reading-entry#updateRating" 
+            data-reading-entry-target="rating"
+            <%= 'disabled' unless reading_entry.persisted? %>>
+      <option value="">Not rated</option>
+      <% (1..10).each do |i| %>
+        <option value="<%= i %>" <%= 'selected' if reading_entry.rating == i %>><%= i %></option>
+      <% end %>
+    </select>
+  </div>
+</div>

@@ -14,8 +14,6 @@ class LiteraryWorksController < ApplicationController
     @literary_work = LiteraryWork.includes(:collections, :programs, :reading_entries).find(params[:id])
     add_breadcrumb "Literary Works", literary_works_path
     add_breadcrumb @literary_work.title
-    @average_rating = @literary_work.average_rating
-    @total_ratings = @literary_work.total_ratings
   end
 
   # GET /literary_works/new

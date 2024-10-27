@@ -1,6 +1,6 @@
 class LiteraryWork < ApplicationRecord
   has_and_belongs_to_many :collections
-  has_many :reading_entries
+  has_many :reading_entries, dependent: :destroy
   has_many :program_items
   has_many :programs, through: :program_items
   

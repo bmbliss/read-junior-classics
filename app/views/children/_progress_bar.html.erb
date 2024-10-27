@@ -1,0 +1,11 @@
+<div class="flex justify-between items-center">
+  <span class="font-medium dark:text-slate-300"><%= program.name %></span>
+  <span class="text-sm text-gray-600 dark:text-slate-400">
+    Progress: <%= progress %>%
+  </span>
+</div>
+<div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+  <div class="bg-primary-600 h-2.5 rounded-full" 
+       style="width: <%= progress %>%">
+  </div>
+</div>

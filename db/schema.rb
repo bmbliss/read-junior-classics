@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_19_004839) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_27_215154) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,16 +48,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_19_004839) do
     t.integer "estimated_reading_time", default: 0
   end
 
-  create_table "program_enrollments", force: :cascade do |t|
-    t.bigint "child_id", null: false
-    t.bigint "program_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["child_id", "program_id"], name: "index_program_enrollments_on_child_id_and_program_id", unique: true
-    t.index ["child_id"], name: "index_program_enrollments_on_child_id"
-    t.index ["program_id"], name: "index_program_enrollments_on_program_id"
-  end
-
   create_table "program_items", force: :cascade do |t|
     t.bigint "program_id", null: false
     t.bigint "literary_work_id", null: false
@@ -79,14 +69,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_19_004839) do
   create_table "reading_entries", force: :cascade do |t|
     t.bigint "literary_work_id", null: false
     t.date "date_read"
-    t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "program_enrollment_id", null: false
     t.integer "rating"
-    t.integer "status", default: 0
+    t.bigint "program_id"
+    t.string "reader_type"
+    t.bigint "reader_id"
     t.index ["literary_work_id"], name: "index_reading_entries_on_literary_work_id"
-    t.index ["program_enrollment_id"], name: "index_reading_entries_on_program_enrollment_id"
+    t.index ["program_id"], name: "index_reading_entries_on_program_id"
+    t.index ["reader_type", "reader_id"], name: "index_reading_entries_on_reader"
   end
 
   create_table "users", force: :cascade do |t|
@@ -100,10 +91,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_19_004839) do
   end
 
   add_foreign_key "children", "users"
-  add_foreign_key "program_enrollments", "children"
-  add_foreign_key "program_enrollments", "programs"
   add_foreign_key "program_items", "literary_works"
   add_foreign_key "program_items", "programs"
   add_foreign_key "reading_entries", "literary_works"
-  add_foreign_key "reading_entries", "program_enrollments"
+  add_foreign_key "reading_entries", "programs"
 end
