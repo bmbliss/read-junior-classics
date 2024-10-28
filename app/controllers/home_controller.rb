@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   def index
     if user_signed_in?
-      @children = current_user.children.includes(program_enrollments: :program)
+      @children = current_user.children
     end
     
     @featured_programs = Program.order(created_at: :desc).limit(5)

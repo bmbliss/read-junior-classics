@@ -1,5 +1,5 @@
 class Program < ApplicationRecord
-  has_many :program_items
+  has_many :program_items, dependent: :destroy
   has_many :literary_works, through: :program_items
   
   validates :name, presence: true

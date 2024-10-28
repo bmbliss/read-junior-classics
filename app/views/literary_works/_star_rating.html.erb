@@ -1,0 +1,12 @@
+<div class="flex items-center">
+  <span class="text-yellow-500 mr-1">
+    <% full_stars = (rating / 2).floor %>
+    <% half_star = rating % 2 >= 1 %>
+    <% empty_stars = 5 - full_stars - (half_star ? 1 : 0) %>
+    
+    <%= "★" * full_stars %><%= "★½" if half_star %><%= "☆" * empty_stars %>
+  </span>
+  <span class="text-gray-600 dark:text-slate-400">
+    <%= rating %> / 10 (<%= total_ratings %> <%= 'rating'.pluralize(total_ratings) %>)
+  </span>
+</div>
