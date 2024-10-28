@@ -41,28 +41,17 @@
         <h2 class="text-xl font-semibold mb-4 dark:text-white">Reading Progress</h2>
         
         <!-- User's own reading progress -->
-        <div class="mb-4" data-controller="reading-entry" 
-             data-reading-entry-literary-work-id-value="<%= @literary_work.id %>">
-          <div class="flex items-center justify-between">
-            <span class="text-gray-600 dark:text-slate-400">Your Progress:</span>
-            <%= render "reading_entries/progress_form", 
-                      reading_entry: current_user.reading_entries.find_or_initialize_by(literary_work: @literary_work),
-                      reader: current_user %>
-          </div>
-        </div>
+        <%= render "reading_entries/progress_form", 
+              literary_work: @literary_work,
+              reading_entry: current_user.reading_entries.find_or_initialize_by(literary_work: @literary_work),
+              reader: current_user %>
 
         <!-- Children's reading progress -->
         <% current_user.children.each do |child| %>
-          <div class="mb-4" data-controller="reading-entry" 
-               data-reading-entry-literary-work-id-value="<%= @literary_work.id %>"
-               data-reading-entry-child-id-value="<%= child.id %>">
-            <div class="flex items-center justify-between">
-              <span class="text-gray-600 dark:text-slate-400"><%= child.name %>'s Progress:</span>
-              <%= render "reading_entries/progress_form", 
-                        reading_entry: child.reading_entries.find_or_initialize_by(literary_work: @literary_work),
-                        reader: child %>
-            </div>
-          </div>
+          <%= render "reading_entries/progress_form", 
+              literary_work: @literary_work,
+              reading_entry: child.reading_entries.find_or_initialize_by(literary_work: @literary_work),
+              reader: child %>
         <% end %>
       </div>
     <% end %>

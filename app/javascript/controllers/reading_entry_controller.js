@@ -1,17 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["checkbox", "rating"]
-  static values = { completed: Boolean, url: String, literaryWorkId: Number }
-
-  toggleStatus(event) {
-    const status = event.target.checked ? "completed" : "in_progress"
-    this.updateReadingEntry({ status: status, literary_work_id: this.literaryWorkIdValue })
-  }
+  static targets = ["rating"]
+  static values = { url: String, literaryWorkId: Number, readingEntryId: Number, childId: Number }
 
   updateRating(event) {
     const rating = event.target.value;
-    this.updateReadingEntry({ rating: rating, literary_work_id: this.literaryWorkIdValue });
+
+    this.updateReadingEntry({ 
+      rating: rating,
+      reading_entry_id: this.readingEntryIdValue,
+      literary_work_id: this.literaryWorkIdValue,
+      child_id: this.childIdValue
+    });
   }
 
   async updateReadingEntry(data) {
@@ -25,31 +26,12 @@ export default class extends Controller {
     })
 
     if (response.ok) {
-      const result = await response.json()
-      if (data.status) {
-        this.completedValue = result.status === "completed"
-        this.element.dataset.readingEntryCompletedValue = this.completedValue
-      }
-      this.updateProgressPercentage(result.progress_percentage)
+      await response.json()
     } else {
       console.error("Failed to update reading entry")
-      if (data.status) {
-        this.checkboxTarget.checked = !this.checkboxTarget.checked
-      }
       if (data.rating) {
         this.ratingTarget.value = this.ratingTarget.dataset.previousValue || ""
       }
     }
-  }
-
-  updateProgressPercentage(percentage) {
-    const progressElement = document.getElementById("program-progress-percentage")
-    if (progressElement) {
-      progressElement.textContent = `${percentage}`
-    }
-  }
-  
-  truncate(str, length) {
-    return str.length > length ? str.substring(0, length - 3) + '...' : str
   }
 }

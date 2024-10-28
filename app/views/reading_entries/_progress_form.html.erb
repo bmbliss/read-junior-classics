@@ -1,24 +1,31 @@
-<div class="flex items-center space-x-4">
-  <div class="flex items-center">
-    <input type="checkbox" 
-           id="status_<%= dom_id(reader) %>"
-           class="form-checkbox"
-           data-reading-entry-target="checkbox"
-           data-action="change->reading-entry#toggleStatus"
-           <%= reading_entry.persisted? ? 'checked' : '' %>>
-    <label class="ml-2 text-sm">Completed</label>
-  </div>
-
-  <div class="flex items-center">
-    <label class="mr-2 text-sm">Rating:</label>
-    <select class="form-select text-sm" 
-            data-action="change->reading-entry#updateRating" 
-            data-reading-entry-target="rating"
-            <%= 'disabled' unless reading_entry.persisted? %>>
-      <option value="">Not rated</option>
-      <% (1..10).each do |i| %>
-        <option value="<%= i %>" <%= 'selected' if reading_entry.rating == i %>><%= i %></option>
+<div class="mb-4" 
+     data-controller="reading-entry" 
+     data-reading-entry-literary-work-id-value="<%= literary_work.id %>"
+     data-reading-entry-reading-entry-id-value="<%= reading_entry.id %>"
+     data-reading-entry-url-value="<%= reading_entries_path(reading_entry) %>"
+     data-reading-entry-reader-value="<%= reader.id %>"
+     data-reading-entry-child-id-value="<%= reader == current_user ? nil : reader.id %>"
+  >
+  <div class="flex items-center justify-between">
+    <span class="text-gray-600 dark:text-slate-400">
+      <% if reader == current_user %>
+        Your Progress:
+      <% else %>
+        <%= reader.name %>'s Progress:
       <% end %>
-    </select>
+    </span>
+    <div class="flex items-center">
+      <label class="mr-2 text-sm dark:text-slate-400">Rating:</label>
+      <select class="form-select text-sm" 
+              data-action="change->reading-entry#updateRating" 
+              data-reading-entry-target="rating">
+        <option value=""></option>
+        <% (1..10).each do |i| %>
+          <option value="<%= i %>" <%= 'selected' if reading_entry.rating == i %>><%= i %></option>
+        <% end %>
+      </select>
+    </div>
   </div>
 </div>
+
+<%#%= reading_entry.persisted? ? 'checked' : '' %>

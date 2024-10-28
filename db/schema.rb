@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_27_215154) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_28_042344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,15 +68,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_27_215154) do
 
   create_table "reading_entries", force: :cascade do |t|
     t.bigint "literary_work_id", null: false
-    t.date "date_read"
+    t.datetime "date_read", default: -> { "CURRENT_DATE" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "rating"
-    t.bigint "program_id"
-    t.string "reader_type"
-    t.bigint "reader_id"
+    t.integer "rating", null: false
+    t.string "reader_type", null: false
+    t.bigint "reader_id", null: false
     t.index ["literary_work_id"], name: "index_reading_entries_on_literary_work_id"
-    t.index ["program_id"], name: "index_reading_entries_on_program_id"
     t.index ["reader_type", "reader_id"], name: "index_reading_entries_on_reader"
   end
 
@@ -94,5 +92,4 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_27_215154) do
   add_foreign_key "program_items", "literary_works"
   add_foreign_key "program_items", "programs"
   add_foreign_key "reading_entries", "literary_works"
-  add_foreign_key "reading_entries", "programs"
 end

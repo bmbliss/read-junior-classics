@@ -1,6 +1,7 @@
 class ReadingEntriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reading_entry, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_reading_entry, only: [:show, :edit, :update, :destroy]
 
   # GET /reading_entries
   def index
@@ -27,20 +28,15 @@ class ReadingEntriesController < ApplicationController
 
   # POST /reading_entries
   def create
-    @reader = find_reader
-    @reading_entry = @reader.reading_entries.new(reading_entry_params)
-    @reading_entry.date_read ||= Date.today
+    @reading_entry = ReadingEntry.find_or_initialize_by(
+      reader: current_reader,
+      literary_work_id: reading_entry_params[:literary_work_id]
+    )
     
-    if @reading_entry.save
-      respond_to do |format|
-        format.html { redirect_to @reading_entry.literary_work, notice: "Reading entry was successfully created." }
-        format.json { render json: reading_entry_json }
-      end
+    if @reading_entry.update(reading_entry_params)
+      render json: reading_entry_json
     else
-      respond_to do |format|
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: { errors: @reading_entry.errors.full_messages }, status: :unprocessable_entity }
-      end
+      render json: { errors: @reading_entry.errors }, status: :unprocessable_entity
     end
   end
 
@@ -69,7 +65,6 @@ class ReadingEntriesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_reading_entry
       @reading_entry = ReadingEntry.find(params[:id])
-      authorize_reading_entry
     end
 
     def find_reader
@@ -89,12 +84,11 @@ class ReadingEntriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def reading_entry_params
-      params.require(:reading_entry).permit(:literary_work_id, :rating, :program_id)
+      params.require(:reading_entry).permit(:literary_work_id, :rating)
     end
 
     def reading_entry_json
       {
-        status: @reading_entry.status,
         rating: @reading_entry.rating,
         reader: {
           id: @reading_entry.reader_id,
@@ -102,5 +96,10 @@ class ReadingEntriesController < ApplicationController
           name: @reading_entry.reader.respond_to?(:name) ? @reading_entry.reader.name : @reading_entry.reader.email
         }
       }
+    end
+
+    def current_reader
+      # This will automatically set reader_type to either "User" or "Child"
+      params[:reading_entry][:child_id] && params[:reading_entry][:child_id].to_i > 0 ? Child.find(params[:reading_entry][:child_id]) : current_user
     end
 end
