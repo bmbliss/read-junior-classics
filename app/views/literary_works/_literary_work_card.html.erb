@@ -4,6 +4,7 @@
       <h3 class="font-semibold text-lg text-blue-600 hover:text-blue-800"><%= literary_work.title %></h3>
       <span class="text-sm text-gray-500">View details →</span>
     </div>
+    
     <p class="text-gray-600 dark:text-slate-400 mt-1">by <%= literary_work.author %></p>
     <p class="text-gray-500 mt-1">
       <%= literary_work.work_type.titleize %> 
@@ -17,5 +18,24 @@
                 total_ratings: literary_work.total_ratings %>
 
     <p class="text-gray-600 dark:text-slate-400 mt-2"><%= truncate(literary_work.description, length: 150) %></p>
+
+    <% if user_signed_in? %>
+      <% user_entry = current_user.reading_entries.find_by(literary_work: literary_work) %>
+      <% children_entries = current_user.children.joins(:reading_entries).where(reading_entries: { literary_work: literary_work }) %>
+      
+      <div class="flex gap-1">
+        <% if user_entry %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+            You read
+          </span>
+        <% end %>
+        
+        <% if children_entries.any? %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+            <%= pluralize(children_entries.count, 'child') %> read
+          </span>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </li>

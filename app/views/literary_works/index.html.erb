@@ -7,7 +7,7 @@
   </div>
 
   <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md">
-    <ul class="divide-y divide-gray-200">
+    <ul class="divide-y divide-gray-200 dark:divide-slate-900">
       <% @literary_works.each do |literary_work| %>
         <%= render 'literary_works/literary_work_card', literary_work: literary_work %>
       <% end %>

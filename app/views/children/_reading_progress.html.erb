@@ -1,7 +1,7 @@
-<div class="bg-white dark:bg-slate-800 shadow rounded-lg p-6">
+<div class="bg-white dark:bg-slate-800">
   <% programs = child.programs_with_progress %>
   <% if programs.any? %>
-    <ul class="divide-y divide-gray-200">
+    <ul class="divide-y divide-gray-200 dark:divide-slate-600">
       <% programs.each do |program| %>
         <% progress = child.progress_in_program(program) %>
         <li class="py-4">
