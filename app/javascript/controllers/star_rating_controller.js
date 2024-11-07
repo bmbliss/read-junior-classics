@@ -10,20 +10,29 @@ export default class extends Controller {
   }
   
   rate(event) {
-    const rating = event.currentTarget.dataset.starRatingIndexValue
+    const rating = parseInt(event.currentTarget.dataset.starRatingIndexValue)
     this.inputTarget.value = rating
     this.updateStars(rating)
     this.element.closest('form').requestSubmit()
   }
   
-  updateStars(rating) {
+  hover(event) {
+    const rating = parseInt(event.currentTarget.dataset.starRatingIndexValue)
+    this.updateStars(rating, true)
+  }
+  
+  resetHover() {
+    this.updateStars(this.inputTarget.value)
+  }
+  
+  updateStars(rating, isHover = false) {
     this.starTargets.forEach((star, index) => {
       const span = star.querySelector('span')
       if (index < rating) {
         span.classList.remove('text-gray-300')
-        span.classList.add('text-yellow-400')
+        span.classList.add(isHover ? 'text-yellow-300' : 'text-yellow-400')
       } else {
-        span.classList.remove('text-yellow-400')
+        span.classList.remove('text-yellow-300', 'text-yellow-400')
         span.classList.add('text-gray-300')
       }
     })

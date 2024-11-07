@@ -1,14 +1,14 @@
-<div class="flex items-center gap-2" data-controller="star-rating">
+<div class="flex items-center gap-1" data-controller="star-rating">
   <% 5.times do |i| %>
     <%= button_tag type: "button",
-        class: "text-2xl focus:outline-none",
+        class: "text-2xl focus:outline-none transition-colors duration-150",
         data: {
-          action: "star-rating#rate",
+          action: "star-rating#rate mouseover->star-rating#hover mouseout->star-rating#resetHover",
           "star-rating-target": "star",
           "star-rating-index-value": i + 1,
           "star-rating-current-value": current_rating
         } do %>
-      <span class="<%= i < current_rating ? 'text-yellow-400' : 'text-gray-300' %>">★</span>
+      <span class="<%= i < current_rating ? 'text-yellow-400' : 'text-gray-300' %> hover:text-yellow-300">★</span>
     <% end %>
   <% end %>
   <%= hidden_field_tag field_name, current_rating, data: { "star-rating-target": "input" } %>
