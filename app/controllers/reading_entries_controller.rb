@@ -28,30 +28,24 @@ class ReadingEntriesController < ApplicationController
 
   # POST /reading_entries
   def create
-    @reading_entry = ReadingEntry.find_or_initialize_by(
-      reader: current_reader,
-      literary_work_id: reading_entry_params[:literary_work_id]
-    )
-    
-    if @reading_entry.update(reading_entry_params)
-      render json: reading_entry_json
-    else
-      render json: { errors: @reading_entry.errors }, status: :unprocessable_entity
+    @reading_entry = ReadingEntry.new(reading_entry_params)
+    @reading_entry.reader = find_reader_by_id(params[:reading_entry][:reader_id])
+    @reading_entry.save
+
+    respond_to do |format|
+      format.turbo_stream { head :ok }
+      format.html { redirect_to @reading_entry.literary_work }
     end
   end
 
   # PATCH/PUT /reading_entries/1
   def update
-    if @reading_entry.update(reading_entry_params)
-      respond_to do |format|
-        format.html { redirect_to @reading_entry, notice: "Reading entry was successfully updated." }
-        format.json { render json: reading_entry_json }
-      end
-    else
-      respond_to do |format|
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: { errors: @reading_entry.errors.full_messages }, status: :unprocessable_entity }
-      end
+    @reading_entry = ReadingEntry.find(params[:id])
+    @reading_entry.update(reading_entry_params)
+
+    respond_to do |format|
+      format.turbo_stream { head :ok }  # Just acknowledge the request without redirecting
+      format.html { redirect_to @reading_entry.literary_work }
     end
   end
 
@@ -84,7 +78,7 @@ class ReadingEntriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def reading_entry_params
-      params.require(:reading_entry).permit(:literary_work_id, :rating)
+      params.require(:reading_entry).permit(:literary_work_id, :rating, :reader_id)
     end
 
     def reading_entry_json
@@ -101,5 +95,12 @@ class ReadingEntriesController < ApplicationController
     def current_reader
       # This will automatically set reader_type to either "User" or "Child"
       params[:reading_entry][:child_id] && params[:reading_entry][:child_id].to_i > 0 ? Child.find(params[:reading_entry][:child_id]) : current_user
+    end
+
+    def find_reader_by_id(reader_id)
+      # First try to find a child
+      current_user.children.find_by(id: reader_id) || 
+      # If no child found and the ID matches current user, return current user
+      (reader_id.to_s == current_user.id.to_s ? current_user : nil)
     end
 end

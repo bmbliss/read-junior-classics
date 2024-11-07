@@ -1,31 +1,14 @@
-<div class="mb-4" 
-     data-controller="reading-entry" 
-     data-reading-entry-literary-work-id-value="<%= literary_work.id %>"
-     data-reading-entry-reading-entry-id-value="<%= reading_entry.id %>"
-     data-reading-entry-url-value="<%= reading_entries_path(reading_entry) %>"
-     data-reading-entry-reader-value="<%= reader.id %>"
-     data-reading-entry-child-id-value="<%= reader == current_user ? nil : reader.id %>"
-  >
-  <div class="flex items-center justify-between">
-    <span class="text-gray-600 dark:text-slate-400">
-      <% if reader == current_user %>
-        Your Progress:
-      <% else %>
-        <%= reader.name %>'s Progress:
-      <% end %>
+<%= form_with(model: reading_entry, class: "mb-4", data: { controller: "form" }) do |f| %>
+  <%= f.hidden_field :literary_work_id %>
+  <%= f.hidden_field :reader_id %>
+  
+  <div class="flex items-center gap-4">
+    <span class="text-gray-700 dark:text-gray-300 font-medium">
+      <%= reader == current_user ? "Your rating" : "#{reader.name}'s rating" %>:
     </span>
-    <div class="flex items-center">
-      <label class="mr-2 text-sm dark:text-slate-400">Rating:</label>
-      <select class="form-select text-sm" 
-              data-action="change->reading-entry#updateRating" 
-              data-reading-entry-target="rating">
-        <option value=""></option>
-        <% (1..10).each do |i| %>
-          <option value="<%= i %>" <%= 'selected' if reading_entry.rating == i %>><%= i %></option>
-        <% end %>
-      </select>
-    </div>
+    
+    <%= render "shared/star_rating_input",
+          current_rating: reading_entry.rating || 0,
+          field_name: "reading_entry[rating]" %>
   </div>
-</div>
-
-<%#%= reading_entry.persisted? ? 'checked' : '' %>
+<% end %>
