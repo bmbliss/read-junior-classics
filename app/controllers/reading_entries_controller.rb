@@ -29,28 +29,38 @@ class ReadingEntriesController < ApplicationController
   # POST /reading_entries
   def create
     @reading_entry = ReadingEntry.find_or_initialize_by(
-      reader: current_reader,
-      literary_work_id: reading_entry_params[:literary_work_id]
+      literary_work_id: reading_entry_params[:literary_work_id],
+      reader_type: reading_entry_params[:reader_type],
+      reader_id: reading_entry_params[:reader_id]
     )
-    
-    if @reading_entry.update(reading_entry_params)
-      render json: reading_entry_json
+    @reading_entry.assign_attributes(reading_entry_params)
+
+    if @reading_entry.save
+      respond_to do |format|
+        format.turbo_stream { head :ok }
+        format.html { redirect_to @reading_entry.literary_work }
+      end
     else
-      render json: { errors: @reading_entry.errors }, status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { head :unprocessable_entity }
+        format.html { redirect_to @reading_entry.literary_work, alert: @reading_entry.errors.full_messages.join(", ") }
+      end
     end
   end
 
   # PATCH/PUT /reading_entries/1
   def update
+    @reading_entry = ReadingEntry.find(params[:id])
+    
     if @reading_entry.update(reading_entry_params)
       respond_to do |format|
-        format.html { redirect_to @reading_entry, notice: "Reading entry was successfully updated." }
-        format.json { render json: reading_entry_json }
+        format.turbo_stream { head :ok }
+        format.html { redirect_to @reading_entry.literary_work }
       end
     else
       respond_to do |format|
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: { errors: @reading_entry.errors.full_messages }, status: :unprocessable_entity }
+        format.turbo_stream { head :unprocessable_entity }
+        format.html { redirect_to @reading_entry.literary_work, alert: @reading_entry.errors.full_messages.join(", ") }
       end
     end
   end
@@ -76,15 +86,19 @@ class ReadingEntriesController < ApplicationController
     end
 
     def authorize_reading_entry
-      unless @reading_entry.reader == current_user || 
-             (@reading_entry.reader.is_a?(Child) && @reading_entry.reader.user == current_user)
+      case @reading_entry.reader_type
+      when "User"
+        raise ActiveRecord::RecordNotFound unless @reading_entry.reader == current_user
+      when "Child"
+        raise ActiveRecord::RecordNotFound unless @reading_entry.reader.user == current_user
+      else
         raise ActiveRecord::RecordNotFound
       end
     end
 
     # Only allow a list of trusted parameters through.
     def reading_entry_params
-      params.require(:reading_entry).permit(:literary_work_id, :rating)
+      params.require(:reading_entry).permit(:literary_work_id, :rating, :reader_id, :reader_type)
     end
 
     def reading_entry_json
@@ -96,10 +110,5 @@ class ReadingEntriesController < ApplicationController
           name: @reading_entry.reader.respond_to?(:name) ? @reading_entry.reader.name : @reading_entry.reader.email
         }
       }
-    end
-
-    def current_reader
-      # This will automatically set reader_type to either "User" or "Child"
-      params[:reading_entry][:child_id] && params[:reading_entry][:child_id].to_i > 0 ? Child.find(params[:reading_entry][:child_id]) : current_user
     end
 end

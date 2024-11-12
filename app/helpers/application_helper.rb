@@ -24,6 +24,6 @@ module ApplicationHelper
   end
 
   def back_link
-    link_to "← Back", :back, class: "text-blue-600 hover:underline"
+    link_to "← Back", :back, class: "text-primary-600 dark:text-primary-dark-600 hover:underline"
   end
 end
