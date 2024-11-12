@@ -1,0 +1,25 @@
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mt-8">
+  <h2 class="font-bold text-2xl text-primary-600 dark:text-primary-dark-600 mb-4">Did you enjoy it?</h2>
+  
+  <% if user_signed_in? %>
+    <div class="space-y-4">
+      <!-- User's own rating -->
+      <%= render "reading_entries/progress_form", 
+            literary_work: literary_work,
+            reading_entry: current_user.reading_entries.find_or_initialize_by(literary_work: literary_work),
+            reader: current_user %>
+
+      <!-- Children's ratings -->
+      <% current_user.children.each do |child| %>
+        <%= render "reading_entries/progress_form", 
+            literary_work: literary_work,
+            reading_entry: child.reading_entries.find_or_initialize_by(literary_work: literary_work),
+            reader: child %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-600 dark:text-slate-400">
+      Please <%= link_to "sign in", login_path, class: "text-primary-600 dark:text-primary-dark-600 hover:underline" %> to rate this work.
+    </p>
+  <% end %>
+</div> 

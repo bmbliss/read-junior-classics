@@ -22,6 +22,7 @@
   <div class="prose prose-md sm:prose lg:prose-lg dark:text-slate-400">
     <%= simple_format(@literary_work.content) %>
   </div>
+  <%= render "reading_entries/rating_card", literary_work: @literary_work %>
 </div>
 
 <script>

@@ -1,59 +1,39 @@
-<div class="container mx-auto">
-  <% content_for :title, @literary_work.title %>
+<% content_for :title, @literary_work.title %>
 
-  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
-    <div class="flex justify-between items-start mb-4">
-      <h1 class="font-bold text-3xl text-primary-600 dark:text-primary-dark-600"><%= @literary_work.title %></h1>
-      <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
-        <%= @literary_work.work_type.titleize %>
-      </span>
-    </div>
-    
-    <p class="text-gray-600 dark:text-slate-400 mb-4">by <%= @literary_work.author %></p>
-
-    <% if @literary_work.volume.present? || @literary_work.page.present? %>
-      <p class="text-gray-500 mb-4">
-        <% if @literary_work.volume.present? %>
-          Volume: <%= @literary_work.volume %>
-        <% end %>
-        <% if @literary_work.page.present? %>
-          <%= " | " if @literary_work.volume.present? %>Page: <%= @literary_work.page %>
-        <% end %>
-      </p>
-    <% end %>
-
-    <p class="text-gray-600 dark:text-slate-400 mb-4"><%= @literary_work.description %></p>
-
-    <div class="mb-4">
-      <%= render "star_rating", 
-                rating: @literary_work.average_rating,
-                total_ratings: @literary_work.total_ratings %>
-    </div>
-
-    <% if @literary_work.content.present? %>
-      <div class="text-gray-600 dark:text-slate-400 mb-4">
-        <span class="font-semibold">Estimated reading time:</span> <%= @literary_work.estimated_reading_time %> <%= 'minute'.pluralize(@literary_work.estimated_reading_time) %>
-      </div>
-    <% end %>
-
-    <% if user_signed_in? %>
-      <div class="border-t border-gray-200 pt-4">
-        <!-- User's own reading progress -->
-        <%= render "reading_entries/progress_form", 
-              literary_work: @literary_work,
-              reading_entry: current_user.reading_entries.find_or_initialize_by(literary_work: @literary_work),
-              reader: current_user %>
-
-        <!-- Children's reading progress -->
-        <% current_user.children.each do |child| %>
-          <%= render "reading_entries/progress_form", 
-              literary_work: @literary_work,
-              reading_entry: child.reading_entries.find_or_initialize_by(literary_work: @literary_work),
-              reader: child %>
-        <% end %>
-      </div>
-    <% end %>
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 mb-8">
+  <div class="flex justify-between items-start mb-4">
+    <h1 class="font-bold text-3xl text-primary-600 dark:text-primary-dark-600"><%= @literary_work.title %></h1>
+    <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+      <%= @literary_work.work_type.titleize %>
+    </span>
   </div>
+  
+  <p class="text-gray-600 dark:text-slate-400 mb-4">by <%= @literary_work.author %></p>
+
+  <% if @literary_work.volume.present? || @literary_work.page.present? %>
+    <p class="text-gray-500 mb-4">
+      <% if @literary_work.volume.present? %>
+        Volume: <%= @literary_work.volume %>
+      <% end %>
+      <% if @literary_work.page.present? %>
+        <%= " | " if @literary_work.volume.present? %>Page: <%= @literary_work.page %>
+      <% end %>
+    </p>
+  <% end %>
+
+  <p class="text-gray-600 dark:text-slate-400 mb-4"><%= @literary_work.description %></p>
+
+  <div class="mb-4">
+    <%= render "star_rating", 
+              rating: @literary_work.average_rating,
+              total_ratings: @literary_work.total_ratings %>
+  </div>
+
+  <% if @literary_work.content.present? %>
+    <div class="text-gray-600 dark:text-slate-400 mb-4">
+      <span class="font-semibold">Estimated reading time:</span> <%= @literary_work.estimated_reading_time %> <%= 'minute'.pluralize(@literary_work.estimated_reading_time) %>
+    </div>
+  <% end %>
 </div>
 
 <% if @literary_work.content.present? %>
@@ -65,3 +45,5 @@
     <div class="text-gray-600 dark:text-slate-400 whitespace-pre-wrap"><%= @literary_work.content %></div>
   </div>
 <% end %>
+
+<%= render "reading_entries/rating_card", literary_work: @literary_work %>
