@@ -28,24 +28,39 @@ class ReadingEntriesController < ApplicationController
 
   # POST /reading_entries
   def create
-    @reading_entry = ReadingEntry.new(reading_entry_params)
-    @reading_entry.reader = find_reader_by_id(params[:reading_entry][:reader_id])
-    @reading_entry.save
+    @reading_entry = ReadingEntry.find_or_initialize_by(
+      literary_work_id: reading_entry_params[:literary_work_id],
+      reader: find_reader_by_id(params[:reading_entry][:reader_id])
+    )
+    @reading_entry.assign_attributes(reading_entry_params)
 
-    respond_to do |format|
-      format.turbo_stream { head :ok }
-      format.html { redirect_to @reading_entry.literary_work }
+    if @reading_entry.save
+      respond_to do |format|
+        format.turbo_stream { head :ok }
+        format.html { redirect_to @reading_entry.literary_work }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream { head :unprocessable_entity }
+        format.html { redirect_to @reading_entry.literary_work, alert: @reading_entry.errors.full_messages.join(", ") }
+      end
     end
   end
 
   # PATCH/PUT /reading_entries/1
   def update
     @reading_entry = ReadingEntry.find(params[:id])
-    @reading_entry.update(reading_entry_params)
-
-    respond_to do |format|
-      format.turbo_stream { head :ok }  # Just acknowledge the request without redirecting
-      format.html { redirect_to @reading_entry.literary_work }
+    
+    if @reading_entry.update(reading_entry_params)
+      respond_to do |format|
+        format.turbo_stream { head :ok }
+        format.html { redirect_to @reading_entry.literary_work }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream { head :unprocessable_entity }
+        format.html { redirect_to @reading_entry.literary_work, alert: @reading_entry.errors.full_messages.join(", ") }
+      end
     end
   end
 
