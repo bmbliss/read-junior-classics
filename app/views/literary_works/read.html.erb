@@ -1,6 +1,6 @@
 <% content_for :title, @literary_work.title %>
 
-<div class="max-w-prose">
+<div class="max-w-prose mb-4 sm:mb-8">
   <%= link_to literary_work_path(@literary_work), class: "inline-block mb-4 text-primary-600 dark:text-primary-dark-600 hover:text-primary-800" do %>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -22,8 +22,9 @@
   <div class="prose prose-md sm:prose lg:prose-lg dark:text-slate-400">
     <%= simple_format(@literary_work.content) %>
   </div>
-  <%= render "reading_entries/rating_card", literary_work: @literary_work %>
 </div>
+
+<%= render "reading_entries/rating_card", literary_work: @literary_work, card_title: "Did you enjoy it?" %>
 
 <script>
   let wakeLock = null;
