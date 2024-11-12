@@ -30,7 +30,8 @@ class ReadingEntriesController < ApplicationController
   def create
     @reading_entry = ReadingEntry.find_or_initialize_by(
       literary_work_id: reading_entry_params[:literary_work_id],
-      reader: find_reader_by_id(params[:reading_entry][:reader_id])
+      reader_type: reading_entry_params[:reader_type],
+      reader_id: reading_entry_params[:reader_id]
     )
     @reading_entry.assign_attributes(reading_entry_params)
 
@@ -85,15 +86,19 @@ class ReadingEntriesController < ApplicationController
     end
 
     def authorize_reading_entry
-      unless @reading_entry.reader == current_user || 
-             (@reading_entry.reader.is_a?(Child) && @reading_entry.reader.user == current_user)
+      case @reading_entry.reader_type
+      when "User"
+        raise ActiveRecord::RecordNotFound unless @reading_entry.reader == current_user
+      when "Child"
+        raise ActiveRecord::RecordNotFound unless @reading_entry.reader.user == current_user
+      else
         raise ActiveRecord::RecordNotFound
       end
     end
 
     # Only allow a list of trusted parameters through.
     def reading_entry_params
-      params.require(:reading_entry).permit(:literary_work_id, :rating, :reader_id)
+      params.require(:reading_entry).permit(:literary_work_id, :rating, :reader_id, :reader_type)
     end
 
     def reading_entry_json
@@ -105,17 +110,5 @@ class ReadingEntriesController < ApplicationController
           name: @reading_entry.reader.respond_to?(:name) ? @reading_entry.reader.name : @reading_entry.reader.email
         }
       }
-    end
-
-    def current_reader
-      # This will automatically set reader_type to either "User" or "Child"
-      params[:reading_entry][:child_id] && params[:reading_entry][:child_id].to_i > 0 ? Child.find(params[:reading_entry][:child_id]) : current_user
-    end
-
-    def find_reader_by_id(reader_id)
-      # First try to find a child
-      current_user.children.find_by(id: reader_id) || 
-      # If no child found and the ID matches current user, return current user
-      (reader_id.to_s == current_user.id.to_s ? current_user : nil)
     end
 end

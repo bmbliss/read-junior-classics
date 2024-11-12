@@ -1,6 +1,7 @@
 <%= form_with(model: reading_entry, class: "mb-4", data: { controller: "form" }) do |f| %>
   <%= f.hidden_field :literary_work_id %>
   <%= f.hidden_field :reader_id %>
+  <%= f.hidden_field :reader_type, value: reader.class.name %>
   
   <div class="flex items-center gap-4">
     <span class="text-gray-700 dark:text-gray-300 font-medium">
