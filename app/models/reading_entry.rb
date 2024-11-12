@@ -3,7 +3,7 @@ class ReadingEntry < ApplicationRecord
   belongs_to :literary_work
 
   validates :date_read, presence: true
-  validates :rating, inclusion: { in: 1..10 }
+  validates :rating, inclusion: { in: 1..5 }
 
   before_validation :set_default_date_read
 

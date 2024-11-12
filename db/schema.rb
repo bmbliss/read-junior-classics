@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_28_042344) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_12_050106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_28_042344) do
     t.integer "rating", null: false
     t.string "reader_type", null: false
     t.bigint "reader_id", null: false
+    t.integer "old_rating"
     t.index ["literary_work_id"], name: "index_reading_entries_on_literary_work_id"
     t.index ["reader_type", "reader_id"], name: "index_reading_entries_on_reader"
   end
